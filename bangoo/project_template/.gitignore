@@ -5,6 +5,5 @@
 *.sq3
 *.pid
 local_settings.py
-dist
-build
+./dist
 ./*egg-info

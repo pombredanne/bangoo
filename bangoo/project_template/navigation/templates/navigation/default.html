@@ -1,0 +1,7 @@
+<ul class="nav navbar-nav {{ custom_classes }}">
+    {% for item in items %}
+    <li class="{% if active == item.path %}active{% endif %}">
+        <a href="/{{ LANGUAGE_CODE }}{{ item.path }}">{{ item.title }}</a>
+    </li>
+    {% endfor %}
+</ul>
