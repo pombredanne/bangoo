@@ -9,6 +9,8 @@ from bangoo import __version__ as version
 install_requires = [
     "django >= 1.6",
     "requests",
+    "django-taggit",
+    #"django-richforms",
 ]
 
 standard_exclude = ('*.py', '*.pyc', '*$py.class', '*~', '.*', '*.bak')
@@ -107,7 +109,7 @@ setup(
     description="An open source content management system on the top of Django framework",
     long_description=open("README.md", 'rb').read().decode('utf-8'),
     license="MIT",
-    url="http://bangoo.lovasb.com/",
+    url="http://bangoocms.com/",
     zip_safe=False,
     include_package_data=True,
     packages=find_packages(),

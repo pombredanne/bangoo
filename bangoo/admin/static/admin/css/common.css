@@ -1,0 +1,12 @@
+.form-actions {
+    clear: both;
+    text-align: right;
+    background-color: #eee;
+    padding: 15px;
+    border-top: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.redactor_toolbar { background: none; }
+
+.form-panel { margin-top: 1em; }

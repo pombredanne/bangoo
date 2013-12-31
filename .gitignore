@@ -8,3 +8,4 @@ local_settings.py
 dist
 build
 ./*egg-info
+uploads

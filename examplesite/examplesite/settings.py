@@ -86,11 +86,16 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     ### Bangoo core modules
+    'bangoo.admin',
     'bangoo.content',
     'bangoo.navigation',
     'bangoo.theming',
+    'bangoo.media',
     ### 3rd-party apps
     'crispy_forms',
+    'taggit',
+    'richforms',
+    'ajaxtables',
 )
 
 LOGGING = {
