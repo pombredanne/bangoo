@@ -3,7 +3,7 @@ from django.utils import six
 from django import template
 from django.conf import settings
 from django.template.defaulttags import URLNode
-from navigation.urlresolvers import reverse
+from bangoo.navigation.urlresolvers import reverse
 from django.core.urlresolvers import NoReverseMatch
 from django.utils.encoding import smart_text
 
@@ -56,4 +56,4 @@ URLNode.render = new_render
 
 
 from django.template.loader import add_to_builtins
-add_to_builtins('navigation.templatetags.navigation_tags')
+add_to_builtins('bangoo.navigation.templatetags.navigation_tags')

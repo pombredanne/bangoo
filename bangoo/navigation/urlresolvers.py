@@ -1,5 +1,6 @@
+from .models import Menu
 from django.core.urlresolvers import reverse as rev, NoReverseMatch
-from navigation.models import Menu
+
 
 def reverse(viewname, urlconf=None, args=None, kwargs=None, prefix=None, current_app=None):
     url = None

@@ -1,7 +1,7 @@
+from .models import Menu
+from django.core.urlresolvers import resolve
 from django.http import Http404
 from django.shortcuts import render
-from navigation.models import Menu
-from django.core.urlresolvers import resolve
 
 
 def menu_dispatcher(request):

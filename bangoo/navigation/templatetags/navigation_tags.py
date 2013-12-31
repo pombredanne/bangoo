@@ -1,6 +1,6 @@
+from bangoo.navigation.models import Menu
 from django import template
 from django.template.loader import render_to_string
-from navigation.models import Menu
 from django.db.models import Q
 register = template.Library()
 
@@ -16,7 +16,7 @@ def generate_menu(context, custom_classes='', template_name='navigation/default.
                             context_instance=context)
 
 from django.template.defaulttags import url
-from navigation.templatetags import URLNode
+from bangoo.navigation.templatetags import URLNode
 from django.core.urlresolvers import NoReverseMatch
 class MenuURLNode(URLNode):
     def render(self, context):
