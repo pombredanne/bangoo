@@ -1,0 +1,30 @@
+{% extends 'admin/base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/admin.css' %}">
+    <script type="text/javascript" src="{% static 'media/js/redactor.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'media/css/redactor.css' %}">
+    <script type="text/javascript">
+        $(function () {
+            $('textarea').redactor({
+                minHeight: 500,
+                imageUpload: "{% url 'media-redactor-upload-images' %}",
+                imageGetJson: "{% url 'media-redactor-list-images' %}",
+                convertVideoLinks: true
+            });        
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+    {% if form.instance.is_page %}
+        <h1>{% trans 'Edit page' %}</h1>
+    {% else %}
+        <h1>{% trans 'Edit widget' %}</h1>
+    {% endif %}
+    {% crispy form form.helper %}
+{% endblock %}

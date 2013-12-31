@@ -1,0 +1,36 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% load ajaxtables_tags %}
+{% load i18n %}
+
+{% block head %}
+    {{ block.super }}
+    {% ajaxtables_imports import_cookies_js=True import_autoload=False %}
+    <script type="text/javascript">
+        $(function () {
+            $('table.table').ajaxTable();
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+<a href="{% url 'admin-content-edit' 0 %}" class="btn btn-primary">{% trans 'Add' %}</a>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-condensed table-striped" data-pagesize="30">
+            <thead>
+                <tr>
+                    <th style="width: 20px;"></th>
+                    <th>Title</th>
+                    <th>Created</th>
+                    <th>Published</th>
+                    <th>Is page?</th>
+                    <th style="width: 60px">Operations</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot></tfoot>
+        </table>
+    </div>
+</div>
+{% endblock %}

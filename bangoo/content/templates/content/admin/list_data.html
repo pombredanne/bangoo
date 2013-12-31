@@ -1,0 +1,48 @@
+{% load i18n %}
+<table>
+    <tbody>
+        {% for obj in object_list %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ obj.title }}</td>
+                <td>{{ obj.created|date:"Y. F d. H:m" }}</td>
+                <td>{{ obj.published|date:"Y. F d. H:m" }}</td>
+                <td>{{ obj.is_page|yesno:"yes,no" }}</td>
+                <td>
+                    <a href="{% url 'admin-content-edit' obj.pk %}" class="btn btn-default">{% trans 'Edit' %}</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="6">Nincs adat</td></tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr class="paging">
+            <td colspan="5">
+                <ul class="pagination pagination-lg">
+                    {% if page_obj.has_previous %}
+                    <li>
+                        <a href="#" data-page="{{ page_obj.previous_page_number }}">← {% trans 'Prev' %}</a>
+                    </li>
+                    <li>
+                        <a href="#" data-page="{{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                    </li>
+                    {% else %}
+                    <li class="disabled"><a href="#">← {% trans 'Prev ' %}</a></li>
+                    {% endif %}
+                    <li class="active"><a href="#">{{ page_obj.number }}</a></li>
+                    {% if page_obj.has_next %}
+                    <li>
+                        <a href="#" data-page="{{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                    </li>
+                    <li>
+                        <a href="#" data-page="{{ page_obj.next_page_number }}">{% trans 'Next ' %} →</a>
+                    </li>
+                    {% else %}
+                    <li class="disabled"><a href="#">{% trans 'Next ' %} →</a></li>
+                    {% endif %}
+                </ul>
+            </td>
+        </tr>
+    </tfoot>
+</table>
