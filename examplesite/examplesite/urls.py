@@ -26,7 +26,7 @@ if settings.DEBUG:
             {'document_root': settings.MEDIA_ROOT})
     )
 
-### Any other urls handled by the manu system.
+### Any other urls handled by the menu system.
 menu_patterns = i18n_patterns('',
     url(r'', include('bangoo.navigation.urls')),
 )

@@ -10,6 +10,7 @@ install_requires = [
     "django >= 1.6",
     "requests",
     "django-taggit",
+    "easy-thumbnails",
     #"django-richforms",
 ]
 
@@ -140,3 +141,7 @@ setup(
                                             "Application Frameworks",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ])
+
+
+
+#### sudo apt-get install libjpeg-dev

@@ -6,3 +6,6 @@
 
 django
 django-crispy-forms
+easy-thumbnails
+django-taggit
+git+git@github.com:lovasb/django-ajaxtables.git#egg=ajaxtables

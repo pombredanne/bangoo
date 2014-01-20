@@ -1,7 +1,8 @@
-# Django settings for examplesite project.
 from os.path import abspath, dirname, join
+BASE_DIR = dirname(dirname(dirname(abspath(__file__)))).replace('\\','/')
 
 DEBUG = True
+THUMBNAIL_DEBUG = DEBUG
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -28,16 +29,10 @@ USE_L10N = True
 USE_TZ = False
 
 # Directories
-PROJECT_ROOT = dirname(dirname(dirname(abspath(__file__)))).replace('\\','/')
-MEDIA_ROOT = PROJECT_ROOT + '/uploads/'
+MEDIA_ROOT = BASE_DIR + '/uploads/'
 MEDIA_URL = '/uploads/'
-STATIC_ROOT = PROJECT_ROOT + '/static/'
+STATIC_ROOT = BASE_DIR + '/static/'
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    ("site_media", join(dirname(dirname(__file__)),'site_media').replace('\\','/')),
-    ("themes", join(dirname(dirname(__file__)),'themes').replace('\\','/')),
-)
 
 STATICFILES_FINDERS = (
     'bangoo.theming.staticfiles.finders.FileSystemFinder',
@@ -96,6 +91,7 @@ INSTALLED_APPS = (
     'taggit',
     'richforms',
     'ajaxtables',
+    'easy_thumbnails',
 )
 
 LOGGING = {
@@ -133,4 +129,12 @@ LOGIN_REDIRECT_URL = '/admin/'
 
 ### Theming
 THEMES_BASE_DIR = join(dirname(dirname(__file__)), 'themes').replace('\\','/')
-THEME = 'default'
+THEME = 'vibrovital'
+
+
+THUMBNAIL_ALIASES = {
+    'media': {
+        'small': {'size': (150, 150), 'quality': 85},
+    },
+}
+THUMBNAIL_SUBDIR = 'thumbs'

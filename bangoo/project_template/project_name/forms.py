@@ -1,9 +1,8 @@
 # encoding: utf8
+from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Field, Layout, HTML
-from django import forms
 from django.contrib.auth.forms import AuthenticationForm
-from django.utils.translations import gettext_lazy as _
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -18,7 +17,7 @@ class CustomAuthenticationForm(AuthenticationForm):
         self.helper.add_input(Submit('login', 'Login', css_class='btn btn-lg btn-primary btn-block'))
         super(CustomAuthenticationForm, self).__init__(*args, **kwargs)
         self.helper.layout = Layout(
-            HTML('<h2 class="form-signin-heading">%s</h2>' % _('Please sign in')),
+            HTML('<h2 class="form-signin-heading">Please sign in</h2>'),
             Field('username', placeholder='Username'),
             Field('password', placeholder='Password'),
         )
