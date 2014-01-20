@@ -8,6 +8,8 @@ register = template.Library()
 def generate_menu(context, custom_classes='', template_name='navigation/default.html'):
     lang = context['request'].LANGUAGE_CODE
     items = Menu.objects.language(lang).all()
+    if not context.get('request').user.is_authenticated():
+        items = items.exclude(login_required=True)
     active = ''
     for item in items:
         if context['request'].path_info.startswith(item.path) and len(item.path) > len(active):

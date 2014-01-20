@@ -28,7 +28,7 @@ class EditContentForm(forms.ModelForm):
         a = Accordion()
         self.helper.layout.fields.append(a)
         for lang_code, lang in settings.LANGUAGES:
-            required = True if lang_code == settings.LANGUAGE_CODE.split('-')[1] else False
+            required = True if lang_code == settings.LANGUAGE_CODE.split('-')[-1] else False
             self.fields['title_%s' % lang_code] = forms.CharField(max_length=200, label='Title (%s)' % lang, required=required)
             self.fields['text_%s' % lang_code] = forms.CharField(required=required, label='Content (%s)' % lang, 
                                                                     widget=forms.Textarea)
