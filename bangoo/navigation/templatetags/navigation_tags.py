@@ -7,7 +7,7 @@ register = template.Library()
 @register.simple_tag(name='menu', takes_context=True)
 def generate_menu(context, custom_classes='', template_name='navigation/default.html'):
     lang = context['request'].LANGUAGE_CODE
-    items = Menu.objects.language(lang).all()
+    items = Menu.objects.language(lang).all().order_by('-weight')
     if not context.get('request').user.is_authenticated():
         items = items.exclude(login_required=True)
     active = ''
