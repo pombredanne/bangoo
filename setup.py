@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 from bangoo import __version__ as version
 
 install_requires = [
-    "django >= 1.6",
+    "django == 1.5.5",
     "requests",
     "django-taggit",
     "easy-thumbnails",
