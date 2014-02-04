@@ -18,7 +18,7 @@ class MenuManager(models.Manager):
         except AssertionError:
             raise WrongMenuFormatException('Titles keys must contain default locale (%s)' % default_locale)
         try:
-            assert urlconf in settings.INSTALLED_APPS
+            assert urlconf.strip('.urls') in settings.INSTALLED_APPS
         except AssertionError:
             raise WrongMenuFormatException('urlconf parameter must be in INSTALLED_APPS')
         menu = Menu.objects.create(urlconf=urlconf, **defaults)
