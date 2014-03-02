@@ -25,5 +25,5 @@ def edit_content(request, content_id, template_name='content/admin/edit_content.
     form = EditContentForm(request.POST or None, instance=content, initial={'authors': [request.user]})
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect(reverse('admin-content-list'))
+        #return HttpResponseRedirect(reverse('admin-content-list'))
     return render(request, template_name, {'form': form})
