@@ -103,7 +103,8 @@ def find_package_data(
 
 
 setup(
-    name="Bangoo",
+    name="bangoo",
+    namespace_packages=['bangoo'],
     version=version,
     author="Bence Lovas",
     author_email="bence.lovas@codehouse.hu",
