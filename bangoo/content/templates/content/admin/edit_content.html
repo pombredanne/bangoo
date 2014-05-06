@@ -5,18 +5,16 @@
 
 {% block head %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/admin.css' %}">
-    <script type="text/javascript" src="{% static 'media/js/redactor.min.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'media/css/redactor.css' %}">
+    <script src="{% theme_static 'redactor/redactor.min.js' %}" type="text/javascript"></script>
+    <link href="{% theme_static 'redactor/redactor.css' %}" rel="stylesheet" type="text/css">
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             $('textarea').redactor({
-                minHeight: 500,
-                imageUpload: "{% url 'media-redactor-upload-images' %}",
                 imageGetJson: "{% url 'media-redactor-list-images' %}",
-                convertVideoLinks: true
-            });        
-        })
+                imageUpload: "{% url  'media-redactor-upload-images' %}",
+            });
+            $('#div_id_title_hu').hide();
+        });
     </script>
 {% endblock %}
 
