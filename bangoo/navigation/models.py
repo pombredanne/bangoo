@@ -1,5 +1,5 @@
 from django.db import models
-from hvad.models import TranslatableModel, TranslatedFields
+from hvad.models import TranslatableModel, TranslatedFields, TranslationManager
 from jsonfield import JSONField
 from bangoo.navigation.debug import WrongMenuFormatException
 from django.conf import settings
@@ -7,7 +7,7 @@ from django.template.defaultfilters import slugify
 from mptt.models import MPTTModel, TreeForeignKey
 from noconflict import classmaker
 
-class MenuManager(models.Manager):
+class MenuManager(TranslationManager):
     def get_queryset(self, *args, **kwargs):
         return super(MenuManager, self).get_queryset(*args, **kwargs)
 

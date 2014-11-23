@@ -4,7 +4,7 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from django.conf import settings
 from crispy_forms.layout import Layout, Div, Submit
-from crispy_forms.bootstrap import FormActions, Accordion, AccordionGroup, Panel
+from crispy_forms.bootstrap import FormActions, Accordion, AccordionGroup
 from django.utils.translation import ugettext_lazy as _
 from taggit.models import Tag
 from richforms.fields import TagItField
@@ -42,8 +42,8 @@ class EditContentForm(forms.ModelForm):
             ag = AccordionGroup( _('Text in %(language)s' % {'language': lang.lower()}), 
                                  'title_%s' % lang_code, 'text_%s' % lang_code )
             a.fields.append(ag)
-        p = Panel(_('Page settings'), 'authors', 'allow_comments', 'template_name', 'registration_required', 
-                    'is_page', css_class="form-panel")
+        p = AccordionGroup(_('Page settings'), 'authors', 'allow_comments', 'template_name', 'registration_required',
+                            'is_page', css_class="form-panel")
         self.helper.layout.fields.append(p)
         self.helper.layout.append(FormActions(Submit('submit', u'Ment', css_class='btn-primary')))
 
