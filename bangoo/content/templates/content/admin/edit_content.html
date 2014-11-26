@@ -11,9 +11,8 @@
         $(function() {
             $('textarea').redactor({
                 imageGetJson: "{% url 'media-redactor-list-images' %}",
-                imageUpload: "{% url  'media-redactor-upload-images' %}",
+                imageUpload: "{% url  'media-redactor-upload-images' %}"
             });
-            $('#div_id_title_hu').hide();
         });
     </script>
 {% endblock %}
