@@ -1,8 +1,8 @@
 <ul class="{{ custom_classes }}">
     {% for item in items %}
     <li class="{% if act_menu.pk == item.pk %}active{% endif %} {% if item.get_descendant_count %}dropdown{% endif %}">
-        <a href="/{{ LANGUAGE_CODE }}{{ item.path }}"
-            {% if item.get_descendant_count %}class="dropdown-toggle" data-toggle="dropdown"{% endif %}>{{ item.title }}</a>
+        <a href="/{{ LANGUAGE_CODE }}{{ item.path }}" {% if item.get_descendant_count %}class="dropdown-toggle" data-toggle="dropdown"{% endif %}>{{ item.title }}
+        </a>
         {% if item.get_descendant_count %}
         <ul class="dropdown-menu">
             {% for child in item.get_children %}

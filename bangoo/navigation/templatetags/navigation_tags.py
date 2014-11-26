@@ -1,6 +1,9 @@
 from bangoo.navigation.models import Menu
 from django import template
 from django.template.loader import render_to_string
+from django.template.defaulttags import URLNode
+from django.core.urlresolvers import NoReverseMatch, reverse
+from django.template.defaulttags import url as django_url
 from django.db.models import Q
 register = template.Library()
 
@@ -17,22 +20,25 @@ def generate_menu(context, custom_classes='', template_name='navigation/default.
     return render_to_string(template_name, {'items': items, 'active': active, 'custom_classes': custom_classes},
                             context_instance=context)
 
-from django.template.defaulttags import url
-from bangoo.navigation.templatetags import URLNode
-from django.core.urlresolvers import NoReverseMatch
+
 class MenuURLNode(URLNode):
     def render(self, context):
-        act_menu = context.get('act_menu', None)
-        prefix = act_menu.path[1:-1] if act_menu else ''
-        prefix = '/%s/' % context.get('LANGUAGE_CODE') + prefix
-        return prefix + super(MenuURLNode, self).render(context)
+        try:
+            return super(MenuURLNode, self).render(context)
+        except NoReverseMatch as ex:
+            act_menu = context.get('act_menu', None)
+            if not act_menu:
+                raise ex
+            prefix = '/%s/%s' % (context.get('LANGUAGE_CODE'), act_menu.path[1:-1])
+            url = reverse(self.view_name.resolve(context), args=self.args, kwargs=self.kwargs, urlconf=act_menu.urlconf)
+            return prefix + url
 
 
-@register.tag(name='menu_url')
-def menu_url(parser, token, node_cls=MenuURLNode):
-    """Just like {% url %} but ads the path of the current menu as prefix."""
-    node_instance = url(parser, token)
-    return node_cls(view_name=node_instance.view_name,
-        args=node_instance.args,
-        kwargs=node_instance.kwargs,
-        asvar=node_instance.asvar)
+@register.tag
+def url(parser, token):
+    #Just like {% url %} but ads the path of the current menu as prefix.
+    node_instance = django_url(parser, token)
+    return MenuURLNode(view_name=node_instance.view_name,
+                       args=node_instance.args,
+                       kwargs=node_instance.kwargs,
+                       asvar=node_instance.asvar)

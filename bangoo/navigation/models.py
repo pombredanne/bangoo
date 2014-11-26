@@ -1,7 +1,7 @@
 from django.db import models
 from hvad.models import TranslatableModel, TranslatedFields, TranslationManager
 from jsonfield import JSONField
-from bangoo.navigation.debug import WrongMenuFormatException
+from .debug import WrongMenuFormatException
 from django.conf import settings
 from django.template.defaultfilters import slugify
 from mptt.models import MPTTModel, TreeForeignKey
