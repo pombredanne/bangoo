@@ -55,7 +55,7 @@ def render_page(request, page):
         from django.contrib.auth.views import redirect_to_login
         return redirect_to_login(request.path)
     if page.template_name:
-        t = loader.select_template((f.page.template_name, DEFAULT_TEMPLATE))
+        t = loader.select_template((page.template_name, DEFAULT_TEMPLATE))
     else:
         t = loader.get_template(DEFAULT_TEMPLATE)
 
