@@ -1,0 +1,20 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% load ajaxtables_tags %}
+{% load i18n %}
+
+{% block head %}
+    {{ block.super }}
+    {% ajaxtables_imports import_cookies_js=True %}
+    <script type="text/javascript">
+    // Menu reorder script comes here
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+
+    </div>
+</div>
+{% endblock %}

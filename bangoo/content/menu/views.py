@@ -1,5 +1,5 @@
 from django.shortcuts import render
 
 
-def home(request, template_name='admin/home.html'):
+def menu(request, template_name='content/menu/menu.html'):
     return render(request, template_name)
