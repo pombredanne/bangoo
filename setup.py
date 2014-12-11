@@ -11,6 +11,9 @@ install_requires = [
     "requests",
     "django-taggit",
     "easy-thumbnails",
+    "django-hvad==0.5.2",
+    "django-jsonfield==0.9.13",
+    "django-mptt==0.6.1"
     #"django-richforms",
 ]
 
