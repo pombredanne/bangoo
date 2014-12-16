@@ -15,8 +15,11 @@
 <div class="row">
     <ul id="sitemap">
         {% recursetree nodes %}
-            <li>
+            <li class="sm2_liOpen">
             <dl>
+                {% if not node.is_leaf_node %}
+                <a class="sm2_expander"></a>
+                {% endif %}
                 <dt>{{ node.title }}</dt>
             </dl>
                 {% if not node.is_leaf_node %}

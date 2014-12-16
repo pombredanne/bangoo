@@ -31,12 +31,18 @@ $(function() {
             $(this).filter('.dropzone').css({ borderColor: '' });
         }
     });
+    
     $('#sitemap li').draggable({
         handle: ' > dl',
         opacity: .8,
         addClasses: false,
         helper: 'clone',
-        zIndex: 100,
+        zIndex: 100
+    });
+
+    $('.sm2_expander').on('click', function() {
+        $(this).parent().parent().toggleClass('sm2_liOpen').toggleClass('sm2_liClosed');
+        return false;
     });
 });
 
