@@ -1,4 +1,5 @@
 {% extends 'admin/base.html' %}
+{% load mptt_tags %}
 {% load static %}
 {% load ajaxtables_tags %}
 {% load i18n %}
@@ -6,15 +7,25 @@
 {% block head %}
     {{ block.super }}
     {% ajaxtables_imports import_cookies_js=True %}
-    <script type="text/javascript">
-    // Menu reorder script comes here
-    </script>
+    <link href="{% static 'menu/css/menu.css' %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static 'menu/js/menu.js' %}"></script>
 {% endblock %}
 
 {% block content %}
 <div class="row">
-    <div class="col-md-12">
-
-    </div>
+    <ul id="sitemap">
+        {% recursetree nodes %}
+            <li>
+            <dl>
+                <dt>{{ node.title }}</dt>
+            </dl>
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    </ul>
 </div>
 {% endblock %}

@@ -92,6 +92,7 @@ INSTALLED_APPS = (
     'richforms',
     'ajaxtables',
     'easy_thumbnails',
+    'mptt'
 )
 
 LOGGING = {
