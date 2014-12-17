@@ -18,7 +18,7 @@
             <li class="{% if not node.is_leaf_node %}sm2_liOpen{% endif %}" id="{{ node.pk }}">
             <dl>
                 <a class="sm2_expander"></a>
-                <dt>{{ node.title }}</dt>
+                <dt>{{ node.path }}</dt>
             </dl>
                 {% if not node.is_leaf_node %}
                     <ul class="children">

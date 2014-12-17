@@ -69,6 +69,8 @@ $(function() {
                     source: dragged.attr('id'),
                     target: to.attr('id')
                 }
+            }).done(function (data) {
+                $('#' + data.menu_id).find('dt:first').html(data.path);
             });
         },
         over: function() {
