@@ -1,69 +1,83 @@
-#sitemap ul, #dragHelper ul {
+#sitemap ul {
     font-size: 1em;
     list-style: none;
 }
 
-#sitemap li, #dragHelper li {
+#sitemap li {
     display: block;
     width: 100%;
     clear: both;
 }
 
-#sitemap dl, #dragHelper div {
+#sitemap dl {
     position: relative;
     display: block;
-    height: 19px;
     border-top: 1px solid #eee;
-    padding-top: 1px;
-    background:#fff;
+    padding-top: 8px;
+    background: #fff;
+    height: 25px;
 }
 
-#sitemap dt, #dragHelper dt {
+#sitemap dt {
     float: left;
     font-weight: bold;
     font-size: 1.1em;
     line-height: 1em;
-    margin-left: 16px;
+    margin-left: 12px;
     padding: 0 0 0 1px;
 }
 
-#sitemap dd, #dragHelper dd {
+#sitemap dd {
     float: left;
 }
 
-#sitemap dl:hover dd, #sitemap dd:hover {
+#sitemap dl:hover dd {
     display: block;
 }
 
-#sitemap dd strong, #dragHelper dd strong {
+#sitemap dd strong {
     display: none;
 }
 
-#sitemap a, #dragHelper a {
-    border: none;}
+#sitemap a {
+    border: none;
+}
 
+#sitemap .sm2_expander {
+    position: absolute;
+    left: 0;
+    font-size: large;
+    line-height: 16px;
+    height: 15px;
+}
 
-#sitemap .sm2_liClosed ul, #dragHelper .sm2_liClosed ul {
+#sitemap .sm2_liOpen > dl > .sm2_expander:after{
+    display: block;
+    width: 15px;
+    height: 1em;
+    content: '-';
+    cursor: pointer;
+}
+
+#sitemap .sm2_liClosed > dl > .sm2_expander:after {
+    display: block;
+    width: 15px;
+    height: 1em;
+    content: '+';
+    cursor: pointer;
+}
+
+#sitemap .sm2_liClosed ul {
     display: none;
 }
 
 #sitemap .dropzone {
-    height:6px;
-    background-color:#fff;
-    border-bottom:4px solid #fff;
+    height: 6px;
+    background-color: #fff;
+    border-bottom: 4px solid #fff;
 }
 
 .ui-droppable {
     cursor: move;
-}
-
-#sitemap dl {
     margin: 0;
-}
-
-.sm2_expander {
-    position: absolute;
-    left: 0;
-    cursor: pointer;
-    display: block;
 }
