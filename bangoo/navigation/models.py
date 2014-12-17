@@ -42,7 +42,7 @@ class Menu(TranslatableModel, MPTTModel):
     __metaclass__ = classmaker()
     login_required = models.BooleanField(default=False)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
-    urlconf = models.CharField(max_length=100, blank=True, null=True)
+    plugin = models.CharField(max_length=100, blank=True, null=True)
     weight = models.SmallIntegerField(default=0)
     parameters = JSONField(blank=True, null=True)
     translations = TranslatedFields(
