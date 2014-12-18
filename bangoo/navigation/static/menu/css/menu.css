@@ -1,6 +1,7 @@
 #sitemap ul {
     font-size: 1em;
     list-style: none;
+    padding-left: 16px;
 }
 
 #sitemap li {
@@ -25,22 +26,21 @@
     line-height: 1em;
     margin-left: 12px;
     padding: 0 0 0 1px;
+    margin-right: 4px;
+}
+
+#sitemap .menu-label {
+    cursor: auto;
 }
 
 #sitemap dd {
     float: left;
+    font-size: small;
+    margin-left: 2px;
 }
 
-#sitemap dl:hover dd {
+#sitemap dl:hover .control {
     display: block;
-}
-
-#sitemap dd strong {
-    display: none;
-}
-
-#sitemap a {
-    border: none;
 }
 
 #sitemap .sm2_expander {
@@ -49,6 +49,7 @@
     font-size: large;
     line-height: 16px;
     height: 15px;
+    text-decoration: none;
 }
 
 #sitemap .sm2_liOpen > dl > .sm2_expander:after{
@@ -75,6 +76,17 @@
     height: 6px;
     background-color: #fff;
     border-bottom: 4px solid #fff;
+}
+
+#sitemap .control {
+    cursor: pointer;
+    display: none;
+    width: auto;
+    text-decoration: none;
+}
+
+.editable {
+    border: 1px solid #afafaf;
 }
 
 .ui-droppable {

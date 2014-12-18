@@ -15,14 +15,14 @@
 <div class="row">
     <ul id="sitemap">
         {% recursetree nodes %}
-            {% if not node.is_leaf_node %}
-            <li class="sm2_liOpen">
-            {% else %}
-            <li class="">
-            {% endif %}
+            <li class="{% if not node.is_leaf_node %}sm2_liOpen{% endif %}" id="{{ node.pk }}">
             <dl>
                 <a class="sm2_expander"></a>
-                <dt>{{ node.title }}</dt>
+                <dt id="{{ node.pk }}-label" class="menu-label">{{ node.title }}</dt>
+                <dd class="glyphicon glyphicon-edit control edit-label"></dd>
+                <dd>
+                    <a class="glyphicon glyphicon-link control edit-plugin" href="{{ node.path }}"></a>
+                </dd>
             </dl>
                 {% if not node.is_leaf_node %}
                     <ul class="children">
