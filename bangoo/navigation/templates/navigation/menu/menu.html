@@ -18,7 +18,11 @@
             <li class="{% if not node.is_leaf_node %}sm2_liOpen{% endif %}" id="{{ node.pk }}">
             <dl>
                 <a class="sm2_expander"></a>
-                <dt>{{ node.path }}</dt>
+                <dt id="{{ node.pk }}-label" class="menu-label">{{ node.title }}</dt>
+                <dd class="glyphicon glyphicon-edit control edit-label"></dd>
+                <dd>
+                    <a class="glyphicon glyphicon-link control edit-plugin" href="{{ node.path }}"></a>
+                </dd>
             </dl>
                 {% if not node.is_leaf_node %}
                     <ul class="children">

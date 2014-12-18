@@ -70,7 +70,9 @@ $(function() {
                     target: to.attr('id')
                 }
             }).done(function (data) {
-                $('#' + data.menu_id).find('dt:first').html(data.path);
+                $.each(data, function (i, o) {
+                    $('#' + o.menu_id + ' a.edit-plugin').first().attr('href', o.path);
+                });
             });
         },
         over: function() {
@@ -94,6 +96,37 @@ $(function() {
     $('.sm2_expander').on('click', function() {
         $(this).parent().parent().toggleClass('sm2_liOpen').toggleClass('sm2_liClosed');
         return false;
+    });
+
+    $('.edit-label').on('click', function(){
+        var id = $(this).parent().parent().attr('id');
+        var label = $('#' + id + '-label');
+
+        label.attr('contentEditable', true).focus();
+        label.addClass('editable');
+        label.unbind('keydown');
+        label.on('keydown', function(e){
+           if(e.keyCode === 13){
+               label.attr('contentEditable', false);
+               label.removeClass('editable');
+
+               $.ajax({
+                   url: id + '/rename/',
+                   type: 'POST',
+                   data: {
+                       title: label.html()
+                   }
+               }).done(function (data) {
+                   $.each(data, function(i, o){
+                       $('#' + o.menu_id + ' a.edit-plugin').first().attr('href', o.path);
+                   });
+               })
+           }
+        });
+    });
+
+    $('#sitemap .menu-label').on('mousedown', function(e){
+        e.stopPropagation();
     });
 });
 
