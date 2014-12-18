@@ -74,6 +74,5 @@ def render_page(request, page):
     })
 
     response = HttpResponse(t.render(c))
-    
-    print "{{ contact }}" in render_to_string(DEFAULT_TEMPLATE, {'page': page}, context_instance=RequestContext(request))
+
     return response

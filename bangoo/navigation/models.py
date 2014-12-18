@@ -21,7 +21,7 @@ class MenuManager(TranslationManager):
             assert urlconf.strip('.urls') in settings.INSTALLED_APPS
         except AssertionError:
             raise WrongMenuFormatException('urlconf parameter must be in INSTALLED_APPS')
-        menu = Menu.objects.create(urlconf=urlconf, **defaults)
+        menu = Menu.objects.create(plugin=urlconf, **defaults)
         for lang, title in titles.items():
             menu.translate(lang)
             menu.title = title

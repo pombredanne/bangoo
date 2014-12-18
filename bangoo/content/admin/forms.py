@@ -14,7 +14,7 @@ from django.template.defaultfilters import slugify
 
 class EditContentForm(forms.ModelForm):
     authors = forms.ModelMultipleChoiceField(queryset=Author.objects.filter(is_active=True), help_text='',
-                                             widget=widgets.SelectMupltipleWithCheckbox(widget_attrs={'filter': "true", "width": "800"}) )
+                                             widget=widgets.SelectMupltipleWithCheckbox(widget_attrs={'filter': "true", "width": "800"}))
 
     class Meta:
         model = Content

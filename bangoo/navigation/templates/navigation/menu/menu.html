@@ -1,0 +1,36 @@
+{% extends 'admin/base.html' %}
+{% load mptt_tags %}
+{% load static %}
+{% load ajaxtables_tags %}
+{% load i18n %}
+
+{% block head %}
+    {{ block.super }}
+    {% ajaxtables_imports import_cookies_js=True %}
+    <link href="{% static 'menu/css/menu.css' %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static 'menu/js/menu.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <ul id="sitemap">
+        {% recursetree nodes %}
+            <li class="{% if not node.is_leaf_node %}sm2_liOpen{% endif %}" id="{{ node.pk }}">
+            <dl>
+                <a class="sm2_expander"></a>
+                <dt id="{{ node.pk }}-label" class="menu-label">{{ node.title }}</dt>
+                <dd class="glyphicon glyphicon-edit control edit-label"></dd>
+                <dd>
+                    <a class="glyphicon glyphicon-link control edit-plugin" href="{{ node.path }}"></a>
+                </dd>
+            </dl>
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    </ul>
+</div>
+{% endblock %}

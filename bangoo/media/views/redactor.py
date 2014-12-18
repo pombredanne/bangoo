@@ -30,7 +30,6 @@ def upload_images(request):
 
 @login_required
 def list_images(request):
-    print Image.objects.all().values_list('tags')
     images = [
         {"thumb": settings.MEDIA_URL + img.file.get_thumbnail({'size': (150, 150)}).name, 
          "image": settings.MEDIA_URL + img.file.name}

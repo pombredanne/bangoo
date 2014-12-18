@@ -92,6 +92,7 @@ INSTALLED_APPS = (
     'richforms',
     'ajaxtables',
     'easy_thumbnails',
+    'mptt'
 )
 
 LOGGING = {
@@ -129,7 +130,7 @@ LOGIN_REDIRECT_URL = '/admin/'
 
 ### Theming
 THEMES_BASE_DIR = join(dirname(dirname(__file__)), 'themes').replace('\\','/')
-THEME = 'vibrovital'
+THEME = 'default'
 
 
 THUMBNAIL_ALIASES = {

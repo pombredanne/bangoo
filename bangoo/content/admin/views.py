@@ -18,10 +18,10 @@ class ContentList(AjaxListView):
         return self.model.objects.language('hu').all().order_by('-created')
 
 @permission_required('content.add_content')
-def edit_content(request, template_name='content/admin/edit_content.html'):
+def edit_content(request, content_id, template_name='content/admin/edit_content.html'):
     lang = settings.LANGUAGES[0][0]
     try:
-        content = Content.objects.language(lang).get(url=request.act_menu.path)
+        content = Content.objects.language(lang).get(pk=content_id)
     except Content.DoesNotExist:
         content = Content(is_page=True)
     form = EditContentForm(request.POST or None, instance=content, initial={'authors': [request.user]})
