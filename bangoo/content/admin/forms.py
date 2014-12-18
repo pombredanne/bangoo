@@ -14,7 +14,7 @@ from django.template.defaultfilters import slugify
 
 class EditContentForm(forms.ModelForm):
     authors = forms.ModelMultipleChoiceField(queryset=Author.objects.filter(is_active=True), help_text='',
-                                             widget=widgets.SelectMupltipleWithCheckbox(widget_attrs={'filter': "true", "width": "800"}) )
+                                             widget=widgets.SelectMupltipleWithCheckbox(widget_attrs={'filter': "true", "width": "800"}))
 
     class Meta:
         model = Content
@@ -56,7 +56,7 @@ class EditContentForm(forms.ModelForm):
             title = data['title_%s' % lang_code]
             text = data['text_%s' % lang_code]
             if all([len(title), len(text)]):
-                p = {'language_code': lang_code, 'title': title, 'text': text, 'url': '/%s/' % slugify(title)}
+                p = {'language_code': lang_code, 'title': title, 'text': text}
                 ###if it's a widget, then make the url unique with language code
                 if not data['is_page']:
                     p['url'] += '%s/' % lang_code
@@ -65,12 +65,14 @@ class EditContentForm(forms.ModelForm):
 
     def save(self, *args, **kwargs):
         obj = super(EditContentForm, self).save(*args, **kwargs)
-        obj.translations.all().delete()
+        #obj.translations.all().delete()
         for pt in self.cleaned_data['page_texts']:
-            obj.translate(pt['language_code'])
-            for label in pt.keys():
-                if label == 'language_code':
-                    continue
-                setattr(obj, label, pt[label])
-            obj.save()
+            tr = Content.objects.language(pt['language_code']).get(pk=obj.pk)
+            tr.text = pt['text']
+            #obj.translate(pt['language_code'])
+            #for label in pt.keys():
+            #    if label in ('language_code', 'url'):
+            #        continue
+            #    setattr(obj, label, pt[label])
+            tr.save()
         return obj

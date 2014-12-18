@@ -3,9 +3,11 @@ from django.conf import settings
 from django.contrib.sites.models import get_current_site
 from django.http import Http404, HttpResponse, HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404
-from django.template import loader, RequestContext
+from django.template import loader, RequestContext, Template
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_protect
+from django.template.loader import render_to_string
+
 
 DEFAULT_TEMPLATE = 'content/page.html'
 
@@ -62,11 +64,15 @@ def render_page(request, page):
     # To avoid having to always use the "|safe" filter in flatpage templates,
     # mark the title and content as already safe (since they are raw HTML
     # content in the first place).
-    page.title = mark_safe(page.title)
-    page.text = mark_safe(page.text)
+    page.title = mark_safe(page.title) 
+    t2 = Template(mark_safe(page.text))
+    c2 = RequestContext(request)
+    page.text = t2.render(c2)
 
     c = RequestContext(request, {
-        'page': page,
+        'page': page
     })
+
     response = HttpResponse(t.render(c))
+
     return response

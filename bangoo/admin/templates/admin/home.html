@@ -2,6 +2,6 @@
 
 {% block content %}
     <!-- a href="/admin/blog/" class="btn btn-primary">Edit blog</a -->
-    <a href="/admin/content/" class="btn btn-primary">Edit contents</a>
+    <a href="{% url 'admin-content-list' %}" class="btn btn-primary">Edit contents</a>
     <a href="{% url 'admin-menu' %}" class="btn btn-primary">Edit menu</a>
 {% endblock %}

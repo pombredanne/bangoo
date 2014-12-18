@@ -5,7 +5,7 @@ import json
 import os
 from PIL import Image
 from django.conf import settings
-from django.http import HttpResponse, Http404
+from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
@@ -25,15 +25,14 @@ def upload_images(request):
         i.save()
         i.tags.add('article')
         retval.append({"filelink": settings.MEDIA_URL + i.file.name})
-    return HttpResponse(json.dumps(retval), mimetype="application/json")
+    return JsonResponse(retval, safe=False)
 
 
 @login_required
 def list_images(request):
-    print Image.objects.all().values_list('tags')
     images = [
         {"thumb": settings.MEDIA_URL + img.file.get_thumbnail({'size': (150, 150)}).name, 
          "image": settings.MEDIA_URL + img.file.name}
         for img in Image.objects.filter(tags__name='article')
     ]
-    return HttpResponse(json.dumps(images), mimetype="application/json")
+    return JsonResponse(images, safe=False)

@@ -21,7 +21,7 @@ class MenuManager(TranslationManager):
             assert urlconf.strip('.urls') in settings.INSTALLED_APPS
         except AssertionError:
             raise WrongMenuFormatException('urlconf parameter must be in INSTALLED_APPS')
-        menu = Menu.objects.create(urlconf=urlconf, **defaults)
+        menu = Menu.objects.create(plugin=urlconf, **defaults)
         for lang, title in titles.items():
             menu.translate(lang)
             menu.title = title
@@ -42,7 +42,7 @@ class Menu(TranslatableModel, MPTTModel):
     __metaclass__ = classmaker()
     login_required = models.BooleanField(default=False)
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children')
-    urlconf = models.CharField(max_length=100, blank=True, null=True)
+    plugin = models.CharField(max_length=100, blank=True, null=True)
     weight = models.SmallIntegerField(default=0)
     parameters = JSONField(blank=True, null=True)
     translations = TranslatedFields(

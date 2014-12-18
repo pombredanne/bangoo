@@ -1,6 +1,7 @@
 from django.http import Http404
 from .models import Menu
 from .views import menu_dispatcher
+from bangoo.admin.views import admin_menu_dispatcher
 
 
 class MenuResolverMiddleware(object):
