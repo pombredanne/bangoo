@@ -17,15 +17,15 @@ class Command(BaseCommand):
         try:
             name = args[0]
         except IndexError:
-            print _('Please specify the theme name')
+            print(_('Please specify the theme name'))
             return
         if not theme_name_re.match(name):
-            print _('The theme name should contian english ABC letters, numbers and underscores')
+            print(_('The theme name should contian english ABC letters, numbers and underscores'))
         theme_dir = os.path.join(settings.THEMES_BASE_DIR, name)
         if os.path.exists(theme_dir):
-            print _("The can't be created because the '%(directory)s' directory already exist!" % {'directory': theme_dir})
+            print(_("The can't be created because the '%(directory)s' directory already exist!" % {'directory': theme_dir}))
             return
         empty_theme_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "static/empty_theme")
         empty_theme_dir = getattr(settings, 'EMPTY_THEME_DIR', empty_theme_dir)
         shutil.copytree(empty_theme_dir, theme_dir)
-        print _("The theme directory is created!")
+        print(_("The theme directory is created!"))

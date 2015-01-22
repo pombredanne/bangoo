@@ -105,7 +105,7 @@ LOGGING = {
 ALLOWED_HOSTS = []
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 LANGUAGES = (
-    ('en', u'English'),
+    ('en', 'English'),
 )
 
 LOGIN_REDIRECT_URL = '/'

@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from bangoo.navigation.models import Menu
 
-from utils import create_path
+from .utils import create_path
 
 
 class MenuOrderForm(forms.Form):

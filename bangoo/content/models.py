@@ -15,7 +15,7 @@ class Author(User):
         'inter': 'Itermediate',
         'expert': 'Expert'
     }
-    experience = models.CharField(max_length=10, choices=EXPERIANCE_CHOICES.items())
+    experience = models.CharField(max_length=10, choices=list(EXPERIANCE_CHOICES.items()))
 
     def __unicode__(self):
         return self.username
