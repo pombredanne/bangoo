@@ -1,16 +1,17 @@
 #encoding: utf8
-from bangoo.content.models import Content, Author
-from django import forms
-from crispy_forms.helper import FormHelper
-from django.conf import settings
-from crispy_forms.layout import Layout, Div, Submit
 from crispy_forms.bootstrap import FormActions, Accordion, AccordionGroup
-from django.utils.translation import ugettext_lazy as _
-from taggit.models import Tag
-from richforms.fields import TagItField
-from richforms import widgets
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Div, Submit
+from django import forms
+from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.template.defaultfilters import slugify
+from django.utils.translation import ugettext_lazy as _
+from richforms import widgets
+from richforms.fields import TagItField
+from taggit.models import Tag
 
+from bangoo.content.models import Content, Author
 
 class EditContentForm(forms.ModelForm):
     authors = forms.ModelMultipleChoiceField(queryset=Author.objects.filter(is_active=True), help_text='',
@@ -22,6 +23,7 @@ class EditContentForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         self.base_fields['authors'].help_text = ''
+        self.base_fields['authors'].widget.attrs['style'] = 'width: 300px'
         super(EditContentForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout()
@@ -49,6 +51,8 @@ class EditContentForm(forms.ModelForm):
 
     def clean(self, *args, **kwargs):
         data = super(EditContentForm, self).clean(*args, **kwargs)
+        if 'authors' not in data:
+            raise ValidationError(_(u"Author is not set. Check 'Page settings'"))
         if not self.is_valid():
             return data
         data['page_texts'] = []
