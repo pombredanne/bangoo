@@ -14,7 +14,7 @@ from taggit.models import Tag
 from bangoo.content.models import Content, Author
 
 class EditContentForm(forms.ModelForm):
-    authors = forms.ModelMultipleChoiceField(queryset=Author.objects.filter(is_active=True), help_text='',
+    authors = forms.ModelMultipleChoiceField(queryset=Author.objects.filter(user__is_active=True), help_text='',
                                              widget=widgets.SelectMupltipleWithCheckbox(widget_attrs={'filter': "true", "width": "800"}))
 
     class Meta:

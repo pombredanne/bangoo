@@ -1,12 +1,11 @@
 #encoding: utf8
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models
-from hvad.models import TranslatableModel, TranslatedFields
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
+from hvad.models import TranslatableModel, TranslatedFields
 
-
-class Author(User):
+class Author(models.Model):
     """
     experience: Level of experience, how complicated edit surface will the author have.
     """
@@ -15,10 +14,12 @@ class Author(User):
         'inter': 'Itermediate',
         'expert': 'Expert'
     }
+
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
     experience = models.CharField(max_length=10, choices=EXPERIANCE_CHOICES.items())
 
     def __unicode__(self):
-        return self.username
+        return unicode(self.user)
 
 class Content(TranslatableModel):
     is_page = models.BooleanField(default=True)
