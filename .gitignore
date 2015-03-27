@@ -9,3 +9,5 @@ dist
 build
 *egg-info
 uploads
+.idea
+.python-version
