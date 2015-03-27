@@ -21,10 +21,10 @@
 #sidebar-wrapper {
     z-index: 1000;
     position: fixed;
-    left: 250px;
+    left: 40px;
     width: 0;
     height: 100%;
-    margin-left: -250px;
+    margin-left: -40px;
     overflow-y: auto;
     background: #000;
     -webkit-transition: all 0.5s ease;
@@ -34,7 +34,7 @@
 }
 
 #wrapper.toggled #sidebar-wrapper {
-    width: 250px;
+    width: 220px;
 }
 
 #page-content-wrapper {
@@ -53,14 +53,14 @@
 .sidebar-nav {
     position: absolute;
     top: 0;
-    width: 250px;
+    width: 220px;
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
 .sidebar-nav li {
-    text-indent: 20px;
+    text-indent: 8px;
     line-height: 40px;
 }
 
@@ -98,19 +98,19 @@
 
 @media(min-width:768px) {
     #wrapper {
-        padding-left: 250px;
+        padding-left: 220px;
     }
 
     #wrapper.toggled {
-        padding-left: 0;
+        padding-left: 50px;
     }
 
     #sidebar-wrapper {
-        width: 250px;
+        width: 220px;
     }
 
     #wrapper.toggled #sidebar-wrapper {
-        width: 0;
+        width: 50px;
     }
 
     #page-content-wrapper {

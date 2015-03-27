@@ -29,14 +29,26 @@
     <link href="{% static 'admin/css/common.css' %}" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <div id="wrapper">
+    <div id="wrapper" class="toggled">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
-                    <a href="{% url 'admin-home' %}">{% trans 'Administration' %}</a>
+                    <a href="{% url 'admin-home' %}">
+                        <span class="brand-full">{% trans 'Administration' %}</span>
+                        <span class="brand-short">{% trans 'A' %}</span>
+                    </a>
                 </li>
                 <li>
-                    <a href="/admin/content/">Home</a>
+                    <a href="/admin/content/">
+                        <i class="fa fa-home"></i>
+                        <span class="nav-label">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <i class="fa fa-github-alt"></i>
+                        <span class="nav-label">Github</span>
+                    </a>
                 </li>
             </ul>
         </div>
