@@ -13,6 +13,7 @@ def reverse(viewname, urlconf=None, args=None, kwargs=None, prefix=None, current
             urlconfs = [urlconf] + list(Menu.objects.exclude(urlconf=urlconf).values_list("urlconf", flat=True).distinct())
         else:
             urlconfs = Menu.objects.all().values_list("urlconf", flat=True).distinct()
+
         for uconf in urlconfs:
             try:
                 url = rev(viewname, uconf, args, kwargs, prefix, current_app)

@@ -1,5 +1,6 @@
 from django.utils.safestring import mark_safe
 
+
 def act_menu(request):
     retval = {}
     if hasattr(request, 'act_menu'):

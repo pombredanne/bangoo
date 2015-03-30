@@ -1,4 +1,3 @@
-from bangoo.navigation.models import Menu
 from django import template
 from django.template.loader import render_to_string
 from django.template.defaulttags import URLNode
@@ -6,6 +5,10 @@ from django.core.urlresolvers import NoReverseMatch, reverse
 from django.template.defaulttags import url as django_url
 from django.db.models import Q
 register = template.Library()
+
+from bangoo.navigation.models import Menu
+from bangoo.navigation.utils import get_urlconf
+
 
 @register.simple_tag(name='menu', takes_context=True)
 def generate_menu(context, custom_classes='', template_name='navigation/default.html'):
@@ -42,3 +45,17 @@ def url(parser, token):
                        args=node_instance.args,
                        kwargs=node_instance.kwargs,
                        asvar=node_instance.asvar)
+
+
+@register.simple_tag(name='admin_url', takes_context=True)
+def admin_url(context, *args, **kwargs):
+    act_menu = context.get('act_menu', None)
+    if not act_menu:
+        raise NoReverseMatch
+    view_name, args = args[0], args[1:]
+    uconf = get_urlconf(act_menu.plugin, frontend_urls=False)
+    url1 = reverse('admin:edit-in-menu', args=[act_menu.pk])
+    url2 = reverse(view_name, args=args, kwargs=kwargs, urlconf=uconf)
+    if url1.endswith('/') and url2.startswith('/'):
+        url1 = url1[:-1]
+    return url1 + url2

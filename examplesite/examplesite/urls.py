@@ -8,7 +8,7 @@ from django.contrib.auth import views as auth_views
 ### Static url patterns; these urls aren't handled by navigation system
 static_patterns = patterns('',
     url(r'^admin/', include('bangoo.admin.urls')),
-    url(r'^media/', include('bangoo.media.urls')),
+    url(r'^media/', include('bangoo.media.admin.urls')),
     url(r'^accounts/login/$', auth_views.login, {'authentication_form': CustomAuthenticationForm}, name='login'),
     url(r'^accounts/logout/$', auth_views.logout_then_login, name='logout'),
     url(r'^accounts/change_password/$', auth_views.password_change, {'post_change_redirect' : '/accounts/change_password/done/'}, name='change-password'),

@@ -13,8 +13,16 @@ class MenuResolverMiddleware(object):
         If the view isn't 'menu_dispatcher', then it's a 'static' function (defined in project urls.py). 
         > No menu has to be found.
         """
-        if view_func != menu_dispatcher:
-            return None ## It's a static url, nothing to do.
+
+        ## It's a static url, nothing to do.
+        if view_func not in (menu_dispatcher, admin_menu_dispatcher):
+            return None
+
+        ## If view is admin
+        if view_func == admin_menu_dispatcher:
+            request.act_menu = Menu.objects.language(request.LANGUAGE_CODE).get(pk=view_kwargs['menu_id'])
+            return None
+
         path = request.path[1:].strip(request.LANGUAGE_CODE)
         parts = path.strip('/').split('/')
         ### Order by menu level desc, mean try to find the actual menu on the most deep level

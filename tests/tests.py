@@ -1,0 +1,1 @@
+from .test_admin_url import *

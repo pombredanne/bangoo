@@ -7,6 +7,7 @@ from django.template.defaultfilters import slugify
 from mptt.models import MPTTModel, TreeForeignKey
 from noconflict import classmaker
 
+
 class MenuManager(TranslationManager):
     def get_queryset(self, *args, **kwargs):
         return super(MenuManager, self).get_queryset(*args, **kwargs)

@@ -12,11 +12,8 @@ def home(request, template_name='admin/home.html'):
 
 
 def admin_menu_dispatcher(request, menu_id):
-    lang = settings.LANGUAGES[0][0] ##default language
-    menu = get_object_or_404(Menu.objects.language(lang), pk=menu_id)
-    uconf = get_urlconf(menu.plugin, frontend_urls=False)
+    uconf = get_urlconf(request.act_menu.plugin, frontend_urls=False)
 
     prefix = '/admin/menu/%s' % menu_id ##TODO: szebb megoldast
     func, args, kwargs = resolve(request.path[len(prefix):], urlconf=uconf)
-    request.act_menu = menu
     return func(request, *args, **kwargs)
