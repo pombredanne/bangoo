@@ -24,7 +24,7 @@ class EditContentForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         self.base_fields['authors'].help_text = ''
-        self.base_fields['authors'].widget.attrs['style'] = 'width: 300px'
+        self.base_fields['authors'].widget.attrs['style'] = 'width: 100%'
         super(EditContentForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout()

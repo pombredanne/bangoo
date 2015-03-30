@@ -21,11 +21,11 @@
 #sidebar-wrapper {
     z-index: 1000;
     position: fixed;
-    left: 40px;
+    left: 50px;
     width: 0;
     height: 100%;
-    margin-left: -40px;
-    overflow-y: auto;
+    margin-left: -50px;
+    overflow: hidden;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;

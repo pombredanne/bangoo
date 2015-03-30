@@ -1,11 +1,19 @@
 {% extends 'admin/base.html' %}
-{% load i18n %}
+{% load bootstrap_form_fields %}
 {% load crispy_forms_tags %}
-{% load static %}
+{% load i18n %}
 {% load navigation_tags %}
+{% load static %}
 
 {% block head %}
     {{ block.super }}
+    {% comment %}
+    <script src="{% static 'admin/js/angular.min.js' %}" type="text/javascript"></script>
+    {% endcomment %}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js" type="text/javascript"></script>
+    <script src="{% static 'admin/js/codehouse.ui.js' %}" type="text/javascript"></script>
+    <script src="{% static 'admin/js/app/content.js' %}" type="text/javascript"></script>
+
     <script src="{% theme_static 'redactor/redactor.min.js' %}" type="text/javascript"></script>
     <script src="{% theme_static 'redactor/plugins/imagemanager.js' %}" type="text/javascript"></script>
     <link href="{% theme_static 'redactor/redactor.css' %}" rel="stylesheet" type="text/css">
@@ -13,13 +21,15 @@
         $(function() {
             $('textarea').redactor({
                 focus: true,
-        		buttonSource: true,
-        		paragraphize: false,
-        		replaceDivs: false,
-        		plugins: ['imagemanager'],
+                buttonSource: true,
+                paragraphize: false,
+                replaceDivs: false,
+                plugins: ['imagemanager'],
                 imageManagerJson: "{% url 'media-redactor-list-images' %}",
                 imageUpload: "{% url  'media-redactor-upload-images' %}"
             });
+
+            $('#settings').appendTo('#target');
         });
     </script>
     <style>
@@ -35,10 +45,33 @@
 {% endblock %}
 
 {% block content %}
-    {% if form.instance.is_page %}
-        <h1>{% trans 'Edit page' %}</h1>
-    {% else %}
-        <h1>{% trans 'Edit widget' %}</h1>
-    {% endif %}
-    {% crispy form form.helper %}
+    <div class="row" ng-app="bangoo.content.edit" ng-cloak>
+        <form ng-controller="BangooContentEditController as contentForm">
+            <div class="col-lg-10">
+                {% if form.instance.is_page %}
+                    <h1>{{ menu.title }}</h1>
+                {% else %}
+                    <h1>{% trans 'Edit widget' %}</h1>
+                {% endif %}
+            </div>
+            <div class="col-lg-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">-- Page settings --</div>
+                    <div class="panel-body" id="target">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr style="border-top: 1px solid red">
+    <div class="row">
+        <div class="col-lg-12">
+            {% if form.instance.is_page %}
+                <h1>{{ menu.title }}</h1>
+            {% else %}
+                <h1>{% trans 'Edit widget' %}</h1>
+            {% endif %}
+            {% crispy form form.helper %}
+        </div>
+    </div>
 {% endblock %}

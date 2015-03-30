@@ -18,4 +18,4 @@ def edit_content(request, template_name='content/admin/edit_content.html'):
     if form.is_valid():
         form.save()
         #return HttpResponseRedirect(reverse('admin-content-list'))
-    return render(request, template_name, {'form': form})
+    return render(request, template_name, {'form': form, 'menu': request.act_menu})

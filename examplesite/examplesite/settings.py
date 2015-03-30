@@ -86,6 +86,7 @@ INSTALLED_APPS = (
     'bangoo.navigation',
     'bangoo.theming',
     'bangoo.media',
+    'angular',
     ### 3rd-party apps
     'crispy_forms',
     'taggit',
