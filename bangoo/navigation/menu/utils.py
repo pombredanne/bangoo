@@ -2,7 +2,7 @@ from django.utils.text import slugify
 
 
 def create_path(menu):
-    roots = [u'/', menu.title]
+    roots = ['/', menu.title]
 
     while True:
         menu = menu.parent
@@ -10,6 +10,6 @@ def create_path(menu):
             break
 
         roots.append(menu.title)
-    roots.append(u'/')
+    roots.append('/')
 
-    return u'/'.join(slugify(_) for _ in roots[::-1])
+    return '/'.join(slugify(_) for _ in roots[::-1])

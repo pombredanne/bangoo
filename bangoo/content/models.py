@@ -16,7 +16,7 @@ class Author(models.Model):
     }
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    experience = models.CharField(max_length=10, choices=EXPERIANCE_CHOICES.items())
+    experience = models.CharField(max_length=10, choices=list(EXPERIANCE_CHOICES.items()))
 
     def __unicode__(self):
         return unicode(self.user)

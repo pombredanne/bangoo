@@ -10,8 +10,8 @@ from bangoo.decorators import class_view_decorator
 from bangoo.navigation.menu.forms import MenuOrderForm, MenuRenameForm
 from bangoo.navigation.models import Menu
 
-from signals import menu_changed
-from utils import create_path
+from .signals import menu_changed
+from .utils import create_path
 
 @permission_required('menu.list_menu')
 def menu(request, template_name='navigation/menu/menu.html'):
@@ -63,7 +63,7 @@ class ReorderMenuView(View):
         else:
             reason = {
                 'status': 'error',
-                'reasons': dict([(k, form.error_class.as_text(v)) for k, v in form.errors.items()])
+                'reasons': dict([(k, form.error_class.as_text(v)) for k, v in list(form.errors.items())])
             }
             return HttpResponse(json.dumps(reason), content_type='application/json')
 
@@ -102,6 +102,6 @@ class RenameMenuView(View):
             reason = {
                 'status': 'error',
                 'menu_id': menu_id,
-                'reasons': dict([(k, form.error_class.as_text(v)) for k, v in form.errors.items()])
+                'reasons': dict([(k, form.error_class.as_text(v)) for k, v in list(form.errors.items())])
             }
             return HttpResponse(json.dumps(reason), content_type='application/json')

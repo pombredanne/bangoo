@@ -48,7 +48,7 @@ class EditContentForm(forms.ModelForm):
         p = AccordionGroup(_('Page settings'), 'authors', 'allow_comments', 'template_name', 'registration_required',
                             'is_page', css_class="form-panel")
         self.helper.layout.fields.append(p)
-        self.helper.layout.append(FormActions(Submit('submit', u'Ment', css_class='btn-primary')))
+        self.helper.layout.append(FormActions(Submit('submit', 'Ment', css_class='btn-primary')))
 
     def clean(self, *args, **kwargs):
         data = super(EditContentForm, self).clean(*args, **kwargs)

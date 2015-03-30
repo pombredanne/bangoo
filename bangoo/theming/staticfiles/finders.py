@@ -23,5 +23,5 @@ class FileSystemFinder(BaseStorageFinder):
         return super(FileSystemFinder, self).find(path, all)
 
     def list(self, ignore_patterns):
-        ignore_patterns += [u'templates', u'*.html']
+        ignore_patterns += ['templates', '*.html']
         return super(FileSystemFinder, self).list(ignore_patterns)
