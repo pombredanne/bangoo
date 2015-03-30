@@ -1,3 +1,41 @@
+angular.module('codehouse.ui.checkbox', [])
+.controller('BsCheckboxController', ['$scope', function($scope){
+    var self = this;
+}])
+.directive('bsCheckbox', function(){
+    return {
+        restrict: 'E',
+        require: '^form',
+        scope: {
+            model: "=",
+            errors: '=',
+            id: '@inputid',
+            help: '@',
+            initial: '@',
+            label: '@',
+            required: '@'
+        },
+        controller: 'BsCheckboxController',
+        template:
+            '<div class="form-group" ng-class="{\'has-error\': errors.length}" id=""> ' +
+                 '<label for="{{ id }}" class="control-label">{{ label }}<span class="asteriskField" ng-show="{{ required }}">*</span></label>' +
+                 '<div class="controls">' +
+                     '<input type="checkbox" id="{{ id }}" class="form-control" ng-model="model" nq-required="{{ required }}">' +
+                     '<p id="hint_{{ id }}" class="help-block">{{ help }}</p>' +
+                     '<span id="error_{{ id }}" class="help-block" ng-show="errors.length">' +
+                        '<div ng-repeat="text in errors">' +
+                            '<strong>{{ text }}</strong>' +
+                        '</div>' +
+                     '</span>' +
+                '</div>' +
+            '</div>',
+        link: function(scope, elem, attrs, ctrl){
+            if(attrs.initial !== undefined){
+                scope.model = attrs.initial;
+            }
+        }
+    };
+});
 angular.module('codehouse.ui.date', [])
 .controller('BsDateController', ['$scope', function($scope){
     var self = this;
@@ -12,6 +50,7 @@ angular.module('codehouse.ui.date', [])
             errors: '=',
             id: '@inputid',
             help: '@',
+            initial: '@',
             label: '@',
             required: '@'
         },
@@ -56,6 +95,7 @@ angular.module('codehouse.ui.input', [])
             errors: '=',
             id: '@inputid',
             help: '@',
+            initial: '@',
             label: '@',
             required: '@'
         },
@@ -74,6 +114,9 @@ angular.module('codehouse.ui.input', [])
                 '</div>' +
             '</div>',
         link: function(scope, elem, attrs, ctrl){
+            if(attrs.initial !== undefined){
+                scope.model = attrs.initial;
+            }
         }
     };
 });
@@ -121,6 +164,43 @@ angular.module('codehouse.ui.modal', [])
         }
     };
 });
+angular.module('codehouse.ui.multipanel', [])
+.controller('BsMultiPanelController', ['$scope', function($scope){
+    var self = this;
+}])
+.directive('bsMultiPanel', function(){
+    return {
+        restrict: 'E',
+        required: '^form',
+        transclude: true,
+        scope: {
+            model: '=',
+            errors: '=',
+            id: '@inputid',
+            help: '@',
+            label: '@',
+            required: '@'
+        },
+        controller: 'BsMultiPanelController',
+        template:
+            '<div class="form-group" ng-class="{\'has-error\': errors}">' +
+                 '<label for="{{ id }}" class="control-label">{{ label }}<span class="asteriskField" ng-show="{{ required }}">*</span></label>' +
+                 '<div class="controls">' +
+                     '<select id="{{ id }}" class="select form-control" ng-model="model" multiple ng-transclude></select>' +
+                     '<p id="hint_{{ id }}" class="help-block">{{ help }}</p>' +
+                     '<span id="error_{{ id }}" class="help-block" ng-show="errors.length">' +
+                          '<div ng-repeat="text in errors">' +
+                               '<strong>{{ text }}</strong>' +
+                          '</div>' +
+                     '</span>' +
+                '</div>' +
+            '</div>',
+        link: function(scope, elem, attrs, ctrl){
+            // TODO: Add initial support. Move jquery.multi-select.js from this project
+            elem.find('select').multiSelect();
+        }
+    }
+});
 angular.module('codehouse.ui.number', [])
 .controller('BsNumberController', ['$scope', function($scope){
     var self = this;
@@ -135,6 +215,7 @@ angular.module('codehouse.ui.number', [])
             errors: '=',
             id: '@inputid',
             help: '@',
+            initial: '@',
             label: '@',
             max: '@',
             min: '@',
@@ -191,7 +272,6 @@ angular.module('codehouse.ui.select', [])
         }
     }
 });
-
 angular.module('codehouse.ui.select2', [])
 .controller('BsSelect2Controller', ['$scope', function($scope){
     var self = this;
@@ -224,6 +304,12 @@ angular.module('codehouse.ui.select2', [])
                 '</div>' +
             '</div>',
         link : function(scope, elem, attrs, ctrl){
+            if(!('initial' in attrs)){
+                scope.model = elem.find('option')[0].value;
+            }
+            else {
+                scope.model = attrs.initial;
+            }
             $(document).ready(function(){
                 elem.find('select').select2();
             });
@@ -246,6 +332,7 @@ angular.module('codehouse.ui.textarea', [])
             id: '@inputid',
             cols: '@',
             help: '@',
+            initial: '@',
             label: '@',
             required: '@',
             rows: '@'
@@ -265,44 +352,8 @@ angular.module('codehouse.ui.textarea', [])
             '</div>'
     }
 });
-angular.module('codehouse.ui.multipanel', [])
-.controller('BsMultiPanelController', ['$scope', function($scope){
-    var self = this;
-}])
-.directive('bsMultiPanel', function(){
-    return {
-        restrict: 'E',
-        required: '^form',
-        transclude: true,
-        scope: {
-            model: '=',
-            errors: '=',
-            id: '@inputid',
-            help: '@',
-            label: '@',
-            required: '@'
-        },
-        controller: 'BsMultiPanelController',
-        template:
-            '<div class="form-group" ng-class="{\'has-error\': errors}">' +
-                 '<label for="{{ id }}" class="control-label">{{ label }}<span class="asteriskField" ng-show="{{ required }}">*</span></label>' +
-                 '<div class="controls">' +
-                     '<select id="{{ id }}" class="select form-control" ng-model="model" multiple ng-transclude></select>' +
-                     '<p id="hint_{{ id }}" class="help-block">{{ help }}</p>' +
-                     '<span id="error_{{ id }}" class="help-block" ng-show="errors.length">' +
-                          '<div ng-repeat="text in errors">' +
-                               '<strong>{{ text }}</strong>' +
-                          '</div>' +
-                     '</span>' +
-                '</div>' +
-            '</div>',
-        link: function(scope, elem, attrs, ctrl){
-            // TODO: Add initial support. Move jquery.multi-select.js from this project
-            elem.find('select').multiSelect();
-        }
-    }
-});
 angular.module('codehouse.ui', [
+    'codehouse.ui.checkbox',
     'codehouse.ui.date',
     'codehouse.ui.input',
     'codehouse.ui.modal',

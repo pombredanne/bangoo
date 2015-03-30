@@ -18,12 +18,12 @@ class ContentResource(ModelResource):
             self.content = Content.objects.language(lang).get(id=content_id)
         except Content.DoesNotExist:
             self.content = Content(is_page=True)
-        self.form = EditContentForm(request.POST or None, instance=self.content, initial={'authors': [request.user]})
+        self.form = EditContentForm(request.POST or None, instance=self.content, initial={'authors': [str(request.user)]})
 
-    def get(self, *args):
+    def get(self, request, content_id):
         return ApiResponse(self.form)
 
-    def post(self, request, *args):
+    def post(self, request, content_id):
         if self.form.is_valid():
             self.form.save()
             return ApiResponse(data=self.form.instance)
