@@ -43,27 +43,22 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row" ng-app="bangoo.content.edit" ng-cloak>
+    <div ng-app="bangoo.content.edit" ng-cloak>
         <form ng-controller="BangooContentEditController as cf" data-url="{% url 'api:content-api' act_menu.pk %}">
+            <div class="row col-lg-12">
+                {% if form.instance.is_page %}
+                    <h1>{{ menu.title }}</h1>
+                {% else %}
+                    <h1>{% trans 'Edit widget' %}</h1>
+                {% endif %}
+            </div>
             <div class="row">
                 <div class="col-lg-10">
-                    {% if form.instance.is_page %}
-                        <h1>{{ menu.title }}</h1>
-                    {% else %}
-                        <h1>{% trans 'Edit widget' %}</h1>
-                    {% endif %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Text in english</div>
+                    <div class="panel panel-default" ng-repeat="(lang, fields) in cf.data.translations">
+                        <div class="panel-heading">[[ lang ]]</div>
                         <div class="panel-body">
-                            {% bootstrap_field form.title_en 'cf.data.title_en' 'cf.errors.title_en' %}
-                            {% bootstrap_field form.text_en 'cf.data.text_en' 'cf.errors.text_en' %}
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Text in hungarian</div>
-                        <div class="panel-body">
-                            {% bootstrap_field form.title_hu 'cf.data.title_hu' 'cf.errors.title_hu' %}
-                            {% bootstrap_field form.text_hu 'cf.data.text_hu' 'cf.errors.text_hu' %}
+                            <bs-input model="fields.title" ></bs-input>
+                            <bs-textarea model="fields.text"></bs-textarea>
                         </div>
                     </div>
                 </div>
@@ -71,11 +66,10 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">Page settings</div>
                         <div class="panel-body">
-                            {% bootstrap_field form.authors 'cf.data.authors' 'cf.errors.authors' %}
-                            {% bootstrap_field form.allow_comments 'cf.data.allow_comments' 'cf.errors.allow_comments' %}
-                            {% bootstrap_field form.template_name 'cf.data.template_name' 'cf.errors.template_name' %}
-                            {% bootstrap_field form.registration_required 'cf.data.registration_required' 'cf.errors.registration_required' %}
-                            {% bootstrap_field form.is_page 'cf.data.is_page' 'cf.errors.is_page' %}
+                            {% bootstrap_field form.allow_comments 'cf.data.pageSettings.allowComments' 'cf.errors.allow_comments' %}
+                            {% bootstrap_field form.template_name 'cf.data.pageSettings.templateName' 'cf.errors.template_name' %}
+                            {% bootstrap_field form.registration_required 'cf.data.pageSettings.registrationRequired' 'cf.errors.registration_required' %}
+                            {% bootstrap_field form.is_page 'cf.data.pageSettings.isPage' 'cf.errors.is_page' %}
                         </div>
                     </div>
                 </div>
