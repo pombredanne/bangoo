@@ -7,7 +7,7 @@
 /* Toggle Styles */
 
 #wrapper {
-    padding-left: 0;
+    padding-left: 220px;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -15,14 +15,14 @@
 }
 
 #wrapper.toggled {
-    padding-left: 250px;
+    padding-left: 0;
 }
 
 #sidebar-wrapper {
     z-index: 1000;
     position: fixed;
     left: 50px;
-    width: 0;
+    width: 220px;
     height: 100%;
     margin-left: -50px;
     overflow: hidden;
@@ -34,7 +34,7 @@
 }
 
 #wrapper.toggled #sidebar-wrapper {
-    width: 220px;
+    width: 0;
 }
 
 #page-content-wrapper {

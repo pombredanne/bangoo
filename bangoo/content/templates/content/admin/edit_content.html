@@ -1,5 +1,5 @@
 {% extends 'admin/base.html' %}
-{%  load bootstrap_form_fields %}
+{% load bootstrap_form_fields %}
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load navigation_tags %}
@@ -52,18 +52,25 @@
                     {% else %}
                         <h1>{% trans 'Edit widget' %}</h1>
                     {% endif %}
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <!-- TODO: Different languages should be iterated -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Text in english</div>
+                        <div class="panel-body">
                             {% bootstrap_field form.title_en 'cf.data.title_en' 'cf.errors.title_en' %}
                             {% bootstrap_field form.text_en 'cf.data.text_en' 'cf.errors.text_en' %}
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Text in hungarian</div>
+                        <div class="panel-body">
+                            {% bootstrap_field form.title_hu 'cf.data.title_hu' 'cf.errors.title_hu' %}
+                            {% bootstrap_field form.text_hu 'cf.data.text_hu' 'cf.errors.text_hu' %}
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-2">
                     <div class="panel panel-default">
                         <div class="panel-heading">Page settings</div>
-                        <div class="panel-body" id="target">
+                        <div class="panel-body">
                             {% bootstrap_field form.authors 'cf.data.authors' 'cf.errors.authors' %}
                             {% bootstrap_field form.allow_comments 'cf.data.allow_comments' 'cf.errors.allow_comments' %}
                             {% bootstrap_field form.template_name 'cf.data.template_name' 'cf.errors.template_name' %}
@@ -75,16 +82,5 @@
             </div>
             <pre>[[ cf|json ]]</pre>
         </form>
-    </div>
-    <hr style="border-top: 1px solid red">
-    <div class="row">
-        <div class="col-lg-12">
-            {% if form.instance.is_page %}
-                <h1>{{ menu.title }}</h1>
-            {% else %}
-                <h1>{% trans 'Edit widget' %}</h1>
-            {% endif %}
-            {% crispy form form.helper %}
-        </div>
     </div>
 {% endblock %}
