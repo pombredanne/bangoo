@@ -23,6 +23,19 @@ def bootstrap_field(field, model, errors):
 
 
 @register.simple_tag
+def redactor_field(field, model, errors):
+    widget = field.field.widget.__class__.__name__
+    attrs = {
+        'field': field,
+        'widget': widget,
+        'model': model,
+        'errors': errors
+    }
+
+    r = render_to_string('angular/redactor_field.html', attrs)
+    return r
+
+@register.simple_tag
 def bs_form_fields(form, angular_model, angular_errors):
     for field in form:
         setattr(form.fields[field.name], 'angular_model', '{0}.{1}'.format(angular_model, field.name))

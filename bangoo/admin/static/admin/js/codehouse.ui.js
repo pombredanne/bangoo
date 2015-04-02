@@ -196,8 +196,12 @@ angular.module('codehouse.ui.multipanel', [])
                 '</div>' +
             '</div>',
         link: function(scope, elem, attrs, ctrl){
-            // TODO: Add initial support. Move jquery.multi-select.js from this project
-            elem.find('select').multiSelect();
+            var deactivateWatcher = scope.$watch('model', function(val){
+                if(val !== undefined && val !== null) {
+                    elem.find('select').multiSelect();
+                    deactivateWatcher();
+                }
+            });
         }
     }
 });
@@ -352,6 +356,61 @@ angular.module('codehouse.ui.textarea', [])
             '</div>'
     }
 });
+angular.module('codehouse.ui.redactor', [])
+.controller('BsRedactorController', ['$scope', function($scope){
+    var self = this;
+}])
+.directive('bsRedactor', function(){
+    return {
+        restrict: 'E',
+        required: '^form',
+        replace: true,
+        controller: 'BsRedactorController',
+        scope: {
+            model: '=',
+            errors: '=',
+            id: '@inputid',
+            cols: '@',
+            help: '@',
+            initial: '@',
+            label: '@',
+            required: '@',
+            rows: '@'
+        },
+        template:
+            '<div class="form-group" ng-class="{\'has-error\': errors}">' +
+                 '<label for="{{ id }}" class="control-label">{{ label }}<span class="asteriskField" ng-show="{{ required }}">*</span></label>' +
+                 '<div class="controls">' +
+                     '<textarea ng-model="model" id="{{ id }}" class="textarea form-control" cols="{{ cols }}" rows="{{ rows }}" ng-required="{{ required }}"></textarea>' +
+                     '<p id="hint_{{ id }}" class="help-block">{{ help }}</p>' +
+                     '<span id="error_{{ id }}" class="help-block" ng-show="errors.length">' +
+                          '<div ng-repeat="text in errors">' +
+                               '<strong>{{ text }}</strong>' +
+                          '</div>' +
+                     '</span>' +
+                '</div>' +
+            '</div>',
+        link: function(scope, elem, attrs){
+            var deactivateWatcher = scope.$watch('model', function(val){
+                if(val !== undefined && val !== null) {
+                    redactorElem.redactor('code.set', scope.model)
+                }
+            });
+
+            var redactorElem = $(elem).find('textarea').redactor({
+                buttonSource: true,
+                paragraphize: false,
+                replaceDivs: false,
+                plugins: ['imagemanager'],
+                changeCallback: function(){
+                    scope.model = this.code.get();
+                    scope.$apply();
+                    deactivateWatcher();
+                }
+            });
+        }
+    }
+});
 angular.module('codehouse.ui', [
     'codehouse.ui.checkbox',
     'codehouse.ui.date',
@@ -359,7 +418,8 @@ angular.module('codehouse.ui', [
     'codehouse.ui.modal',
     'codehouse.ui.multipanel',
     'codehouse.ui.number',
+    'codehouse.ui.redactor',
     'codehouse.ui.select',
     'codehouse.ui.select2',
-    'codehouse.ui.textarea'
+    'codehouse.ui.textarea',
 ]);

@@ -27,9 +27,20 @@
             <option value="{{ value }}">{{ text }}</option>
         {% endfor %}
     </bs-select>
+{% elif widget == 'SelectMultiple' %}
+    <bs-multi-panel model="{{ model }}" errors="{{ errors }}"
+            inputid="{{ field.auto_id }}" required="{{ field.field.required|yesno:'true,false' }}"
+            {% for attr, value in field.field.widget.attrs.items %}{{ attr }}="{{ value }}" {% endfor %}
+            label="{{ field.field.label }}" help="{{ field.field.help_text }}">
+        {% for value, text in choices %}
+            <option value="{{ value }}">{{ text }}</option>
+        {% endfor %}
+    </bs-multi-panel>
 {% elif widget == 'CheckboxInput' %}
     <bs-checkbox model="{{ model }}" errors="{{ errors }}"
                  inputid="{{ field.auto_id }}" required="{{ field.field.required|yesno:'true,false' }}"
                  {% for attr, value in field.field.widget.attrs.items %}{{ attr }}="{{ value }}" {% endfor %}
                 label="{{ field.field.label }}" help="{{ field.field.help_text }}"></bs-checkbox>
+{% else %}
+    {{ widget }}
 {% endif %}

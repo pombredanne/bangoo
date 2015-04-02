@@ -1,4 +1,5 @@
-#encoding: utf8
+# coding: utf8
+
 from crispy_forms.bootstrap import FormActions, Accordion, AccordionGroup
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Div, Submit
@@ -30,10 +31,11 @@ class EditContentForm(forms.ModelForm):
         self.helper.layout = Layout()
         a = Accordion()
         self.helper.layout.fields.append(a)
+        self.languages = []
         for lang_code, lang in settings.LANGUAGES:
             required = True if lang_code == settings.LANGUAGE_CODE.split('-')[-1] else False
             self.fields['title_%s' % lang_code] = forms.CharField(max_length=200, label='Title (%s)' % lang, required=required)
-            self.fields['text_%s' % lang_code] = forms.CharField(required=required, label='Content (%s)' % lang, 
+            self.fields['text_%s' % lang_code] = forms.CharField(required=required, label='Content (%s)' % lang,
                                                                     widget=forms.Textarea)
             if self.instance.pk:
                 try:
@@ -42,9 +44,17 @@ class EditContentForm(forms.ModelForm):
                     self.fields['text_%s' % lang_code].initial = trans.text
                 except:
                     pass
-            ag = AccordionGroup( _('Text in %(language)s' % {'language': lang.lower()}), 
-                                 'title_%s' % lang_code, 'text_%s' % lang_code )
+            ag = AccordionGroup(_('Text in %(language)s' % {'language': lang.lower()}),
+                                  'title_%s' % lang_code, 'text_%s' % lang_code)
             a.fields.append(ag)
+
+            self.languages.append({
+                'fields': {
+                    'title': self['title_{0}'.format(lang_code)],
+                    'text': self['text_{0}'.format(lang_code)]},
+                'heading': _('Text in {0}'.format(lang.lower()))
+            })
+
         p = AccordionGroup(_('Page settings'), 'authors', 'allow_comments', 'template_name', 'registration_required',
                             'is_page', css_class="form-panel")
         self.helper.layout.fields.append(p)
@@ -52,8 +62,6 @@ class EditContentForm(forms.ModelForm):
 
     def clean(self, *args, **kwargs):
         data = super(EditContentForm, self).clean(*args, **kwargs)
-        if 'authors' not in data:
-            raise ValidationError(_(u"Author is not set. Check 'Page settings'"))
         if not self.is_valid():
             return data
         data['page_texts'] = []
@@ -66,6 +74,8 @@ class EditContentForm(forms.ModelForm):
                 if not data['is_page']:
                     p['url'] += '%s/' % lang_code
                 data['page_texts'].append(p)
+        if len(data['page_texts']) == 0:
+            raise ValidationError(_('Title and content in at least one language should be published.'))
         return data
 
     def save(self, *args, **kwargs):

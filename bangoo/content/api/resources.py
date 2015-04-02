@@ -1,3 +1,5 @@
+import json
+
 from django.conf import settings
 
 from restify import status
@@ -18,7 +20,13 @@ class ContentResource(ModelResource):
             self.content = Content.objects.language(lang).get(id=content_id)
         except Content.DoesNotExist:
             self.content = Content(is_page=True)
-        self.form = EditContentForm(request.POST or None, instance=self.content, initial={'authors': [str(request.user)]})
+
+        post = request.body.decode()
+        if post == '':
+            post = None
+        else:
+            post = json.loads(post)
+        self.form = EditContentForm(post, instance=self.content, initial={'authors': [str(request.user.author.pk)]})
 
     def get(self, request, content_id):
         return ApiResponse(self.form)
