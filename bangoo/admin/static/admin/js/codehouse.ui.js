@@ -421,5 +421,5 @@ angular.module('codehouse.ui', [
     'codehouse.ui.redactor',
     'codehouse.ui.select',
     'codehouse.ui.select2',
-    'codehouse.ui.textarea',
+    'codehouse.ui.textarea'
 ]);
