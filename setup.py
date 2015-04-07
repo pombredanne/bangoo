@@ -14,9 +14,10 @@ install_requires = [
     "django-hvad==0.5.2",
     "django-jsonfield==0.9.13",
     "django-mptt==0.6.1",
-    "ajaxtables",
-    "django-restify",
-    "richforms",
+    "django-crispy-forms",
+    #"ajaxtables",
+    #"django-restify",
+    #"richforms",
 ]
 
 standard_exclude = ('*.py', '*.pyc', '*$py.class', '*~', '.*', '*.bak')
