@@ -3,37 +3,50 @@
 {% load static %}
 {% load ajaxtables_tags %}
 {% load i18n %}
+{% load bootstrap_form_fields %}
 
 {% block head %}
     {{ block.super }}
     {% ajaxtables_imports import_cookies_js=True %}
     <link href="{% static 'menu/css/menu.css' %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static 'menu/js/app/new_menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'menu/js/menu.js' %}"></script>
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <ul id="sitemap">
-        {% recursetree nodes %}
-            <li class="{% if not node.is_leaf_node %}sm2_liOpen{% endif %}" id="{{ node.pk }}">
-            <dl>
-                <a class="sm2_expander"></a>
-                <dt id="{{ node.pk }}-label" class="menu-label">{{ node.title }}</dt>
-                <dd class="glyphicon glyphicon-edit control edit-label" title="Edit label"></dd>
-                <dd title="View page">
-                    <a class="glyphicon glyphicon-link control edit-plugin" href="{{ node.path }}"></a>
-                </dd>
-                <dd title="View admin page">
-                    <a class="glyphicon glyphicon-pencil control plugin-admin-page" href="{{ node.pk }}/edit"></a>
-                </dd>
-            </dl>
-                {% if not node.is_leaf_node %}
-                    <ul class="children">
-                        {{ children }}
-                    </ul>
-                {% endif %}
-            </li>
-        {% endrecursetree %}
-    </ul>
+<div ng-app="bangoo.navigation" ng-controller="MenuController as ctrl" ng-cloak>
+    <div class="row">
+        <ul id="sitemap">
+            <button ng-click="initModal()" class="btn btn-primary">{% trans 'Add menu' %}</button>
+            {% recursetree nodes %}
+                <li class="{% if not node.is_leaf_node %}sm2_liOpen{% endif %}" id="{{ node.pk }}">
+                <dl>
+                    <a class="sm2_expander"></a>
+                    <dt id="{{ node.pk }}-label" class="menu-label">{{ node.title }}</dt>
+                    <dd class="glyphicon glyphicon-edit control edit-label" title="Edit label"></dd>
+                    <dd title="View page">
+                        <a class="glyphicon glyphicon-link control edit-plugin" href="{{ node.path }}"></a>
+                    </dd>
+                    <dd title="View admin page">
+                        <a class="glyphicon glyphicon-pencil control plugin-admin-page" href="{{ node.pk }}/edit"></a>
+                    </dd>
+                </dl>
+                    {% if not node.is_leaf_node %}
+                        <ul class="children">
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endrecursetree %}
+        </ul>
+    </div>
+    <bs-modal title="{% trans 'New Menu' %}" visible="showModal">
+        <form ng-submit="" ng-controller="NewMenuController as newCtrl" id="newMenuForm">
+            {% bs_form_fields form angular_model='m.data' angular_errors='m.errors' %}
+            <div class="modal-footer">
+                <input type="submit" value="{% trans 'Save' %}" class="btn btn-submit btn-primary">
+            </div>
+        </form>
+    </bs-modal>
 </div>
 {% endblock %}
