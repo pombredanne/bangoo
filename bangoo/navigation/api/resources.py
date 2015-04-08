@@ -1,4 +1,5 @@
 import json
+from django.conf import settings
 
 from restify import status
 from restify.http.response import ApiResponse
@@ -26,12 +27,16 @@ class MenuResource(ModelResource):
             plugin = data['plugin']
             titles = {}
 
+            add_menu_kwargs = {}
+            if data['parent']:
+                add_menu_kwargs['parent'] = data['parent']
+
             for k, v in data.items():
                 if k in self.form.language_fields:
                     code = self.form.language_fields[k]
                     titles[code] = v
 
-            Menu.handler.add_menu(titles=titles, plugin=plugin)
+            Menu.handler.add_menu(titles=titles, plugin=plugin, **add_menu_kwargs)
 
             # TODO: Return new menu instances
             return ApiResponse({})
