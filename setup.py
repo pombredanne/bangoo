@@ -13,8 +13,11 @@ install_requires = [
     "easy-thumbnails",
     "django-hvad==0.5.2",
     "django-jsonfield==0.9.13",
-    "django-mptt==0.6.1"
-    #"django-richforms",
+    "django-mptt==0.6.1",
+    "django-crispy-forms",
+    #"ajaxtables",
+    #"django-restify",
+    #"richforms",
 ]
 
 standard_exclude = ('*.py', '*.pyc', '*$py.class', '*~', '.*', '*.bak')
