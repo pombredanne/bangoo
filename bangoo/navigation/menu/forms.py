@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
 
 from bangoo.navigation.models import Menu
@@ -62,3 +63,34 @@ class MenuRenameForm(forms.Form):
             raise ValidationError(_('Menu with same path already exists'))
 
         return self.cleaned_data['title']
+
+
+class MenuCreateForm(forms.Form):
+    PLUGIN_CHOICES = (
+        ('bangoo.content', 'bangoo.content'),
+    )
+
+    plugin = forms.ChoiceField(choices=PLUGIN_CHOICES, label=_('Plugin'), initial=PLUGIN_CHOICES[0][0])
+
+    def __init__(self, *args, **kwargs):
+        super(MenuCreateForm, self).__init__(*args, **kwargs)
+        self.language_fields = {}
+
+        for code, lang in settings.LANGUAGES:
+            field_key = 'title_{0}'.format(code)
+            self.fields[field_key] = forms.CharField(max_length=100, label=_('Title ({0})'.format(lang)), required=True)
+            self.language_fields[field_key] = code
+
+    def clean(self):
+        data = super(MenuCreateForm, self).clean()
+        code_dict = dict(settings.LANGUAGES)
+
+        if not self.errors:
+            for field_key, field_value in data.items():
+                if field_key in self.language_fields:
+                    code = self.language_fields[field_key]
+                    path = '/{0}/'.format(slugify(field_value))
+
+                    if Menu.objects.language(code).filter(path=path).exists():
+                        raise ValidationError(_("Menu item '{0}' already exists in {1} language".format(field_value, code_dict[code])))
+        return data

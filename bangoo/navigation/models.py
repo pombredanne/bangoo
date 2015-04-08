@@ -12,17 +12,17 @@ class MenuManager(TranslationManager):
     def get_queryset(self, *args, **kwargs):
         return super(MenuManager, self).get_queryset(*args, **kwargs)
 
-    def add_menu(self, titles, urlconf=None, **defaults):
+    def add_menu(self, titles, plugin=None, **defaults):
         default_locale = settings.LANGUAGE_CODE.split('-')[0]
         try:
             assert default_locale in list(titles.keys())
         except AssertionError:
-            raise WrongMenuFormatException('Titles keys must contain default locale (%s)' % default_locale)
+            raise WrongMenuFormatException('Title keys must contain default locale (%s)' % default_locale)
         try:
-            assert urlconf.strip('.urls') in settings.INSTALLED_APPS
+            assert plugin.strip('.urls') in settings.INSTALLED_APPS
         except AssertionError:
-            raise WrongMenuFormatException('urlconf parameter must be in INSTALLED_APPS')
-        menu = Menu.objects.create(plugin=urlconf, **defaults)
+            raise WrongMenuFormatException('plugin parameter must be listen in INSTALLED_APPS')
+        menu = Menu.objects.create(plugin=plugin, **defaults)
         for lang, title in list(titles.items()):
             menu.translate(lang)
             menu.title = title
@@ -37,7 +37,7 @@ class Menu(TranslatableModel, MPTTModel, metaclass=classmaker()):
     """
     login_required: Is this menu public accessable
     parent: The parent menu
-    urlconf: Which apps urlconf to use?
+    plugin: Which apps urlconf to use?
     weight: The weight of the menu item. Items in the same level are ordered by weight
     """
     login_required = models.BooleanField(default=False)

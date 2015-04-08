@@ -1,12 +1,13 @@
 *.log
+*.pid
 *.pot
 *.py[c|o]
-.DS_Store
 *.sq3
-*.pid
+*egg-info
+.idea
+.DS_Store
 local_settings.py
 dist
 build
-*egg-info
 uploads
-.idea
+static

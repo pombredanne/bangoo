@@ -7,15 +7,16 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
 
 from bangoo.decorators import class_view_decorator
-from bangoo.navigation.menu.forms import MenuOrderForm, MenuRenameForm
+from bangoo.navigation.menu.forms import MenuOrderForm, MenuRenameForm, MenuCreateForm
 from bangoo.navigation.models import Menu
 
 from .signals import menu_changed
 from .utils import create_path
 
+
 @permission_required('menu.list_menu')
 def menu(request, template_name='navigation/menu/menu.html'):
-    return render(request, template_name, {'nodes': Menu.objects.all()})
+    return render(request, template_name, {'nodes': Menu.objects.all(), 'form': MenuCreateForm()})
 
 
 @class_view_decorator(permission_required('menu.reorder'))
