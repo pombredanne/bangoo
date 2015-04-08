@@ -52,5 +52,5 @@ class Menu(TranslatableModel, MPTTModel, metaclass=classmaker()):
     )
     handler = MenuManager()
 
-    def __unicode__(self):
-        return self.path
+    def __str__(self):
+        return self.title

@@ -71,6 +71,8 @@ class MenuCreateForm(forms.Form):
     )
 
     plugin = forms.ChoiceField(choices=PLUGIN_CHOICES, label=_('Plugin'), initial=PLUGIN_CHOICES[0][0])
+    parent = forms.ModelChoiceField(queryset=Menu.objects.language(settings.LANGUAGES[0][0]).all(), label=_('Parent'),
+                                    required=False)
 
     def __init__(self, *args, **kwargs):
         super(MenuCreateForm, self).__init__(*args, **kwargs)
@@ -90,6 +92,9 @@ class MenuCreateForm(forms.Form):
                 if field_key in self.language_fields:
                     code = self.language_fields[field_key]
                     path = '/{0}/'.format(slugify(field_value))
+
+                    if 'parent' in data and data['parent']:
+                        path = data['parent'].path + path[1:]
 
                     if Menu.objects.language(code).filter(path=path).exists():
                         raise ValidationError(_("Menu item '{0}' already exists in {1} language".format(field_value, code_dict[code])))

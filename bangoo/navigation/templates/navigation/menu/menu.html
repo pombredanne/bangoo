@@ -23,12 +23,14 @@
                 <dl>
                     <a class="sm2_expander"></a>
                     <dt id="{{ node.pk }}-label" class="menu-label">{{ node.title }}</dt>
+                    {% comment %}
                     <dd class="glyphicon glyphicon-edit control edit-label" title="Edit label"></dd>
+                    {% endcomment %}
                     <dd title="View page">
                         <a class="glyphicon glyphicon-link control edit-plugin" href="{{ node.path }}"></a>
                     </dd>
                     <dd title="View admin page">
-                        <a class="glyphicon glyphicon-pencil control plugin-admin-page" href="{{ node.pk }}/edit"></a>
+                        <a class="glyphicon glyphicon-pencil control plugin-admin-page" href="{{ node.pk }}/"></a>
                     </dd>
                 </dl>
                     {% if not node.is_leaf_node %}
