@@ -1,4 +1,4 @@
-import inspect, types, __builtin__
+import inspect, types, builtins
 
 ### https://gist.github.com/piquadrat/3713091
 ############## preliminary: two utility functions #####################
@@ -13,7 +13,7 @@ def skip_redundant(iterable, skipset=None):
 
 
 def remove_redundant(metaclasses):
-    skipset = set([types.ClassType])
+    skipset = set([type])
     for meta in metaclasses: # determines the metaclasses to be skipped
         skipset.update(inspect.getmro(meta)[1:])
     return tuple(skip_redundant(metaclasses, skipset))

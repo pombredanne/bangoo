@@ -1,0 +1,5 @@
+<bs-redactor model="{{ model }}" errors="{{ errors }}"
+             inputid="{{ field.auto_id }}" required="{{ field.field.required|yesno:'true,false' }}"
+             {% for attr, value in field.field.widget.attrs.items %}{{ attr }}="{{ value }}"{% endfor %}
+             label="{{ field.field.label }}" help="{{ field.field.help_text }}">
+</bs-redactor>
