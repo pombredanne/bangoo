@@ -20,6 +20,7 @@ class MenuOrderForm(forms.Form):
     target = forms.IntegerField()
 
     def __init__(self, *args, **kwargs):
+        # TODO: Add unique check
         super(MenuOrderForm, self).__init__(*args, **kwargs)
 
         self.default_locale = settings.LANGUAGE_CODE.split('-')[0]

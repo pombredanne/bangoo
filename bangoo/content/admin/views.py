@@ -12,7 +12,7 @@ def edit_content(request, template_name='content/admin/edit_content.html'):
         content = Content.objects.language(lang).get(url=request.act_menu.path)
     except Content.DoesNotExist:
         content = Content(is_page=True)
-    form = EditContentForm(request.POST or None, instance=content)
+    form = EditContentForm(request.POST or None, instance=content, author=request.user.author)
     if form.is_valid():
         form.save()
     return render(request, template_name, {'form': form, 'menu': request.act_menu})

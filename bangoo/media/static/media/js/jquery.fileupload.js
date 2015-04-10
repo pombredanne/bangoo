@@ -1350,7 +1350,7 @@
         // .fileupload('add', {files: filesList});
         add: function (data) {
             var that = this;
-            if (!data || this.options.disabled) {
+            if (!data || this.options.isSaving) {
                 return;
             }
             if (data.fileInput && !data.files) {
@@ -1370,7 +1370,7 @@
         // .fileupload('send', {files: filesList});
         // The method returns a Promise object for the file upload call.
         send: function (data) {
-            if (data && !this.options.disabled) {
+            if (data && !this.options.isSaving) {
                 if (data.fileInput && !data.files) {
                     var that = this,
                         dfd = $.Deferred(),

@@ -8,9 +8,9 @@ def menu_created_callback(sender, **kwargs):
         return
 
     content = Content.objects.create(published=timezone.now())
-    for trans in menu.translations.all():
-        content.translate(trans.language_code)
-        content.title = menu.title
-        content.url = menu.path
+    for menu_trans in menu.translations.all():
+        content.translate(menu_trans.language_code)
+        content.title = menu_trans.title
+        content.url = menu_trans.path
         content.text = ''
         content.save()

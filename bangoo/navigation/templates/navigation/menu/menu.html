@@ -53,7 +53,7 @@
             </div>
             {% bs_form_fields form angular_model='data' angular_errors='errors' %}
             <div class="modal-footer">
-                <input type="submit" value="{% trans 'Save' %}" class="btn btn-submit btn-primary">
+                <input type="submit" value="{% trans 'Save' %}" class="btn btn-submit btn-primary" ng-disabled="isSaving">
             </div>
         </form>
     </bs-modal>
