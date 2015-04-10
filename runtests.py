@@ -13,7 +13,11 @@ if not settings.configured:
             }
         },
         INSTALLED_APPS=[
-            'bangoo', 'tests', 'bangoo.navigation',
+            'django.contrib.auth',
+            'django.contrib.contenttypes',
+
+            'bangoo', 'bangoo.navigation', 'bangoo.content',
+            'tests',
         ],
         MIDDLEWARE_CLASSES = ()
     )

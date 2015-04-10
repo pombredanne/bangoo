@@ -37,10 +37,15 @@ class Content(TranslatableModel):
     translations = TranslatedFields(
         title=models.CharField(verbose_name=_('title'), max_length=255),
         url=models.CharField(verbose_name=_('url'), max_length=255, unique=True),
-        text=models.TextField(verbose_name=_('content'), blank=True, null=True),
+        text=models.TextField(verbose_name=_('content'), blank=True),
         meta={
             'permissions': (
                 ('Can list all content', 'list_contents'),
-            )
+            ),
         }
     )
+
+## TODO: move to apps.py
+from bangoo.navigation.signals import menu_created
+from bangoo.content.receivers import menu_created_callback
+menu_created.connect(menu_created_callback)

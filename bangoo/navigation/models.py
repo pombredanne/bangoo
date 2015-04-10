@@ -6,6 +6,7 @@ from django.conf import settings
 from django.template.defaultfilters import slugify
 from mptt.models import MPTTModel, TreeForeignKey
 from .noconflict import classmaker
+from .signals import menu_created
 
 
 class MenuManager(TranslationManager):
@@ -19,7 +20,7 @@ class MenuManager(TranslationManager):
         except AssertionError:
             raise WrongMenuFormatException('Title keys must contain default locale (%s)' % default_locale)
         try:
-            assert plugin.strip('.urls') in settings.INSTALLED_APPS
+            assert plugin in settings.INSTALLED_APPS
         except AssertionError:
             raise WrongMenuFormatException('plugin parameter must be listen in INSTALLED_APPS')
         menu = Menu.objects.create(plugin=plugin, **defaults)
@@ -30,6 +31,7 @@ class MenuManager(TranslationManager):
             if 'parent' in list(defaults.keys()):
                 menu.path = defaults['parent'].path + menu.path[1:]
             menu.save()
+        menu_created.send(self.__class__, menu=menu)
         return menu
 
 
