@@ -27,6 +27,30 @@ $.ajaxSetup({
 
 // Credit goes to Dave McDermid
 // https://boagworld.com/dev/creating-a-draggable-sitemap-with-jquery/
+var historyStack = {
+    stack: new Array(),
+    temp: null,
+    saveState: function(item) {
+        historyStack.temp = { item: $(item), itemParent: $(item).parent(), itemAfter: $(item).prev() };
+    },
+    commit: function() {
+        if (historyStack.temp != null) historyStack.stack.push(historyStack.temp);
+    },
+    restoreState: function() {
+        var h = historyStack.stack.pop();
+        if (h == null) return;
+        if (h.itemAfter.length > 0) {
+            h.itemAfter.after(h.item);
+        }
+        else {
+            h.itemParent.prepend(h.item);
+        }
+        //checks the classes on the lists
+        $('#sitemap li.sm2_liOpen').not(':has(li)').removeClass('sm2_liOpen');
+        $('#sitemap li:has(ul li):not(.sm2_liClosed)').addClass('sm2_liOpen');
+    }
+};
+
 $(function() {
     $('#sitemap li').prepend('<div class="dropzone"></div>');
 
@@ -61,6 +85,8 @@ $(function() {
                 to = li;
             }
 
+            historyStack.commit();
+
             $.ajax({
                 url: 'reorder/',
                 type: 'POST',
@@ -69,10 +95,19 @@ $(function() {
                     source: dragged.attr('id'),
                     target: to.attr('id')
                 }
-            }).done(function (data) {
+            }).success(function (data) {
                 $.each(data, function (i, o) {
                     $('#' + o.menu_id + ' a.edit-plugin').first().attr('href', o.path);
                 });
+            }).error(function(retval){
+                historyStack.restoreState();
+                $('.top-right').notify({
+                    type: 'danger',
+                    message: {text: retval.responseText},
+                    fadeOut: {enabled: true, delay: 5000}
+                }).show();
+
+
             });
         },
         over: function() {
@@ -90,7 +125,10 @@ $(function() {
         opacity: .8,
         addClasses: false,
         helper: 'clone',
-        zIndex: 100
+        zIndex: 100,
+        start: function(e, ui) {
+            historyStack.saveState(this);
+        }
     });
 
     $('.sm2_expander').on('click', function() {
