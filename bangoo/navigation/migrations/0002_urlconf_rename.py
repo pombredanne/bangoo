@@ -6,8 +6,9 @@ def data_migr(apps, schema_editor):
     Menu = apps.get_model("navigation", "Menu")
     db_alias = schema_editor.connection.alias
     for m in Menu.objects.using(db_alias):
-        m.plugin = m.plugin.strip('.urls')
-        m.save()
+        if m.plugin:
+            m.plugin = m.plugin.strip('.urls')
+            m.save()
 
 
 class Migration(migrations.Migration):

@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
 
+from bangoo.content.models import Content
 from bangoo.decorators import class_view_decorator
 from bangoo.navigation.menu.forms import MenuOrderForm, MenuRenameForm, MenuCreateForm
 from bangoo.navigation.models import Menu
@@ -53,8 +54,15 @@ class ReorderMenuView(View):
 
                 if method in {'move', 'insert'}:
                     for descendant in source_menu.get_descendants(include_self=True):
+                        old_path = descendant.path
+
                         descendant.path = create_path(descendant)
                         descendant.save()
+
+                        if descendant.plugin == 'bangoo.content':
+                            content = Content.objects.language(descendant.language_code).filter(url=old_path).first()
+                            content.url = descendant.path
+                            content.save()
 
                         changed_paths.append({
                             'menu_id': descendant.id,
