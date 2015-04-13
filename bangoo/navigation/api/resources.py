@@ -1,5 +1,4 @@
 import json
-from django.conf import settings
 
 from restify import status
 from restify.http.response import ApiResponse
@@ -36,8 +35,7 @@ class MenuResource(ModelResource):
                     code = self.form.language_fields[k]
                     titles[code] = v
 
-            Menu.handler.add_menu(titles=titles, plugin=plugin, **add_menu_kwargs)
-
-            # TODO: Return new menu instances
-            return ApiResponse({})
+            menu = Menu.handler.add_menu(titles=titles, plugin=plugin, **add_menu_kwargs)
+            # TODO: We might return with too much information
+            return ApiResponse(menu)
         return ApiResponse(self.form, status_code=status.HTTP_400_BAD_REQUEST)

@@ -26,7 +26,7 @@ class ContentResource(ModelResource):
             post = None
         else:
             post = json.loads(post)
-        self.form = EditContentForm(post, instance=self.content, initial={'authors': [str(request.user.author.pk)]})
+        self.form = EditContentForm(post, instance=self.content, initial={'authors': [str(_.pk) for _ in self.content.authors.all()]})
 
     def get(self, request, content_id):
         return ApiResponse(self.form)

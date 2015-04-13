@@ -6,9 +6,7 @@ angular.module('bangoo.navigation', ["codehouse.ui"], function($interpolateProvi
     $scope.showModal = false;
 
     this.callback = function(data){
-        // TODO: Implement dynamic menu tree redrawing
-        console.log(data);
-        location.reload();
+        window.location = data.id + '/';
     };
 
     $scope.initModal = function(url){
@@ -20,6 +18,7 @@ angular.module('bangoo.navigation', ["codehouse.ui"], function($interpolateProvi
     };
 }])
 .controller('NewMenuController', ['$http', '$scope', '$element', function($http, $scope, $element){
+    $scope.isSaving = false;
     $scope.url = $($element).data('url');
 
     $scope.data = {};
@@ -31,6 +30,7 @@ angular.module('bangoo.navigation', ["codehouse.ui"], function($interpolateProvi
     };
 
     this.save = function(fn){
+        $scope.isSaving = true;
         var url = $($element).data('action');
 
         $http({
@@ -40,6 +40,7 @@ angular.module('bangoo.navigation', ["codehouse.ui"], function($interpolateProvi
             xsrfHeaderName: 'X-CSRFToken',
             xsrfCookieName: 'csrftoken'
         }).error(function(retval, status, headers, config){
+            $scope.isSaving = false;
             $scope.errors = retval;
         }).success(function(retval){
             fn(retval);

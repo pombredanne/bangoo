@@ -11,10 +11,14 @@ class Author(models.Model):
     experience: Level of experience, how complicated edit surface will the author have.
     """
 
+    BEGINNER = 'begin'
+    INTERMEDIATE = 'inter'
+    EXPERT = 'expert'
+
     EXPERIENCE_CHOICES = {
-        'begin': 'Beginner',
-        'inter': 'Intermediate',
-        'expert': 'Expert'
+        BEGINNER: 'Beginner',
+        INTERMEDIATE: 'Intermediate',
+        EXPERT: 'Expert'
     }
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
@@ -36,9 +40,10 @@ class Content(TranslatableModel):
     registration_required = models.BooleanField(_('registration required'), default=False)
     translations = TranslatedFields(
         title=models.CharField(verbose_name=_('title'), max_length=255),
-        url=models.CharField(verbose_name=_('url'), max_length=255, unique=True),
+        url=models.CharField(verbose_name=_('url'), max_length=255),
         text=models.TextField(verbose_name=_('content'), blank=True),
         meta={
+            'unique_together': [('url', 'language_code')],
             'permissions': (
                 ('Can list all content', 'list_contents'),
             ),

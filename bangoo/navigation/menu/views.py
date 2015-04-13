@@ -1,11 +1,13 @@
 import json
 
 from django.contrib.auth.decorators import permission_required
-from django.db import transaction
-from django.http import HttpResponse
+from django.db import transaction, IntegrityError
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
 
+from bangoo.content.models import Content
 from bangoo.decorators import class_view_decorator
 from bangoo.navigation.menu.forms import MenuOrderForm, MenuRenameForm, MenuCreateForm
 from bangoo.navigation.models import Menu
@@ -24,43 +26,54 @@ class ReorderMenuView(View):
     def post(self, request, *args, **kwargs):
         form = MenuOrderForm(request.POST)
         if form.is_valid():
-            with transaction.atomic():
-                changed_paths = []
+            try:
+                with transaction.atomic():
+                    changed_paths = []
 
-                method = form.cleaned_data['method']
-                target_menu = form.cleaned_data['target']
-                source_menu = form.cleaned_data['source']
+                    method = form.cleaned_data['method']
+                    target_menu = form.cleaned_data['target']
+                    source_menu = form.cleaned_data['source']
 
-                if method == 'move':
-                    source_menu_parent = source_menu.parent
-                    source_menu.move_to(target_menu, position='left')
-                    source_menu.save()
+                    if method == 'move':
+                        source_menu_parent = source_menu.parent
+                        source_menu.move_to(target_menu, position='left')
+                        source_menu.save()
 
-                    menu_changed.send(sender=self.__class__,
-                                      menu=source_menu,
-                                      old_parent=source_menu_parent,
-                                      new_parent=target_menu.parent)
+                        menu_changed.send(sender=self.__class__,
+                                          menu=source_menu,
+                                          old_parent=source_menu_parent,
+                                          new_parent=target_menu.parent)
 
-                if method == 'insert':
-                    source_menu_parent = source_menu.parent
-                    source_menu.move_to(target_menu)
-                    source_menu.save()
+                    if method == 'insert':
+                        source_menu_parent = source_menu.parent
+                        source_menu.move_to(target_menu)
+                        source_menu.save()
 
-                    menu_changed.send(sender=self.__class__,
-                                      menu=source_menu,
-                                      old_parent=source_menu_parent,
-                                      new_parent=target_menu)
+                        menu_changed.send(sender=self.__class__,
+                                          menu=source_menu,
+                                          old_parent=source_menu_parent,
+                                          new_parent=target_menu)
 
-                if method in {'move', 'insert'}:
-                    for descendant in source_menu.get_descendants(include_self=True):
-                        descendant.path = create_path(descendant)
-                        descendant.save()
+                    if method in {'move', 'insert'}:
+                        for descendant in source_menu.get_descendants(include_self=True):
+                            old_path = descendant.path
 
-                        changed_paths.append({
-                            'menu_id': descendant.id,
-                            'path': descendant.path
-                        })
-                    return HttpResponse(json.dumps(changed_paths), content_type='application/json')
+                            descendant.path = create_path(descendant)
+                            descendant.save()
+
+                            if descendant.plugin == 'bangoo.content':
+                                content = Content.objects.language(descendant.language_code).filter(url=old_path).first()
+                                content.url = descendant.path
+                                content.save()
+
+                            changed_paths.append({
+                                'menu_id': descendant.id,
+                                'path': descendant.path
+                            })
+                        return HttpResponse(json.dumps(changed_paths), content_type='application/json')
+            except IntegrityError:
+                return HttpResponseBadRequest(_("Failed to move the menu item because there is already one "
+                                                "with the same name under the destination path."))
         else:
             reason = {
                 'status': 'error',

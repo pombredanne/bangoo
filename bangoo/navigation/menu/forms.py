@@ -20,6 +20,7 @@ class MenuOrderForm(forms.Form):
     target = forms.IntegerField()
 
     def __init__(self, *args, **kwargs):
+        # TODO: Add unique check
         super(MenuOrderForm, self).__init__(*args, **kwargs)
 
         self.default_locale = settings.LANGUAGE_CODE.split('-')[0]
@@ -97,5 +98,8 @@ class MenuCreateForm(forms.Form):
                         path = data['parent'].path + path[1:]
 
                     if Menu.objects.language(code).filter(path=path).exists():
-                        raise ValidationError(_("Menu item '{0}' already exists in {1} language".format(field_value, code_dict[code])))
+                        raise ValidationError(_(
+                            "Menu item '{0}' with the selected parent already exists in {1} language".format(
+                                field_value, code_dict[code])
+                        ))
         return data
