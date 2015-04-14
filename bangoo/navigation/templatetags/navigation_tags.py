@@ -13,7 +13,7 @@ from bangoo.navigation.utils import get_urlconf
 @register.simple_tag(name='menu', takes_context=True)
 def generate_menu(context, custom_classes='', template_name='navigation/default.html'):
     lang = context['request'].LANGUAGE_CODE
-    items = Menu.objects.language(lang).filter(parent__isnull=True).order_by('-weight')
+    items = Menu.objects.language(lang).filter(parent__isnull=True).order_by('tree_id')
     if not context.get('request').user.is_authenticated():
         items = items.exclude(login_required=True)
     active = ''
