@@ -4,6 +4,8 @@ from bangoo.content.models import Content
 
 def menu_created_callback(sender, **kwargs):
     menu = kwargs['menu']
+    author = kwargs['user'].author
+
     if menu.plugin != 'bangoo.content':
         return
 
@@ -12,5 +14,6 @@ def menu_created_callback(sender, **kwargs):
         content.translate(menu_trans.language_code)
         content.title = menu_trans.title
         content.url = menu_trans.path
+        content.authors.add(author)
         content.text = ''
         content.save()
