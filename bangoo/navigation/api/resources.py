@@ -35,7 +35,7 @@ class MenuResource(ModelResource):
                     code = self.form.language_fields[k]
                     titles[code] = v
 
-            menu = Menu.handler.add_menu(titles=titles, plugin=plugin, **add_menu_kwargs)
+            menu = Menu.handler.add_menu(titles=titles, plugin=plugin, user=request.user, **add_menu_kwargs)
             # TODO: We might return with too much information
             return ApiResponse(menu)
         return ApiResponse(self.form, status_code=status.HTTP_400_BAD_REQUEST)

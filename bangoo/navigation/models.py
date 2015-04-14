@@ -13,7 +13,7 @@ class MenuManager(TranslationManager):
     def get_queryset(self, *args, **kwargs):
         return super(MenuManager, self).get_queryset(*args, **kwargs)
 
-    def add_menu(self, titles, plugin=None, **defaults):
+    def add_menu(self, titles, plugin=None, user=None, **defaults):
         default_locale = settings.LANGUAGE_CODE.split('-')[0]
         try:
             assert default_locale in list(titles.keys())
@@ -31,7 +31,7 @@ class MenuManager(TranslationManager):
             if 'parent' in list(defaults.keys()):
                 menu.path = defaults['parent'].path + menu.path[1:]
             menu.save()
-        menu_created.send(self.__class__, menu=menu)
+        menu_created.send(self.__class__, menu=menu, user=user)
         return menu
 
 
