@@ -360,7 +360,7 @@ angular.module('codehouse.ui.redactor', [])
 .controller('BsRedactorController', ['$scope', function($scope){
     var self = this;
 }])
-.directive('bsRedactor', function(){
+.directive('bsRedactor', ['redactorOptions', function(redactorOptions){
     return {
         restrict: 'E',
         required: '^form',
@@ -375,7 +375,8 @@ angular.module('codehouse.ui.redactor', [])
             initial: '@',
             label: '@',
             required: '@',
-            rows: '@'
+            rows: '@',
+
         },
         template:
             '<div class="form-group" ng-class="{\'has-error\': errors}">' +
@@ -397,20 +398,16 @@ angular.module('codehouse.ui.redactor', [])
                 }
             });
 
-            var redactorElem = $(elem).find('textarea').redactor({
-                buttonSource: true,
-                paragraphize: false,
-                replaceDivs: false,
-                plugins: ['imagemanager'],
-                changeCallback: function(){
-                    scope.model = this.code.get();
-                    scope.$apply();
-                    deactivateWatcher();
-                }
-            });
+            redactorOptions.changeCallback = function(){
+                scope.model = this.code.get();
+                scope.$apply();
+                deactivateWatcher();
+            }
+
+            var redactorElem = $(elem).find('textarea').redactor(redactorOptions);
         }
     }
-});
+}]);
 angular.module('codehouse.ui', [
     'codehouse.ui.checkbox',
     'codehouse.ui.date',

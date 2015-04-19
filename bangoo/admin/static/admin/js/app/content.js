@@ -10,7 +10,6 @@ angular.module('bangoo.content.edit', ['codehouse.ui'], function($interpolatePro
     $scope.data = {};
     $scope.errors = {};
 
-
     $http.get(this.url).success(function(data){
         $scope.data = data;
     });
