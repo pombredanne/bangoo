@@ -69,6 +69,7 @@ class MenuRenameForm(forms.Form):
 class MenuCreateForm(forms.Form):
     PLUGIN_CHOICES = (
         ('bangoo.content', 'bangoo.content'),
+        ('bangoo.blog', 'bangoo.blog')
     )
 
     plugin = forms.ChoiceField(choices=PLUGIN_CHOICES, label=_('Plugin'), initial=PLUGIN_CHOICES[0][0])

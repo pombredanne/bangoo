@@ -83,6 +83,7 @@ INSTALLED_APPS = (
     ### Bangoo core modules
     'bangoo.admin',
     'bangoo.content',
+    'bangoo.blog',
     'bangoo.navigation',
     'bangoo.theming',
     'bangoo.media',
