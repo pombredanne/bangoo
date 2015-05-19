@@ -43,10 +43,12 @@
                         <button class="btn btn-primary" ng-click="post.submit('publish', $event)">{% trans 'Publish' %}</button>
                         <button class="btn btn-default" ng-click="post.submit('draft', $event)">{% trans 'Save as draft' %}</button>
                     </div>
+                </div>
+                <div class="col-md-2">
                     {% comment %}
-                    TODO: TagWidget is not implemented
-                    {% bootstrap_field form.tags 'data.tags' 'errors.tags' %}
+                    TODO: Add some jquery tagging plugin here (note: for instance blogger doesn't use anything)
                     {% endcomment %}
+                    {% bootstrap_field form.tags 'data.tags' 'errors.tags' %}
                 </div>
             </div>
         </form>

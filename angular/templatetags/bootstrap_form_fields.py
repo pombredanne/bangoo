@@ -21,7 +21,6 @@ def bootstrap_field(field, model, errors):
     r = render_to_string('angular/bs_field.html', attrs)
     return r
 
-
 @register.simple_tag
 def redactor_field(field, model, errors):
     widget = field.field.widget.__class__.__name__

@@ -16,25 +16,34 @@ from bangoo.blog.models import Post
 
 
 class PostSerializer(ModelSerializer):
+    def for_list(self, post):
+        return {
+            'id': post.pk,
+            'title': post.title,
+            'created_at': post.created_at,
+            'published_at': post.published_at,
+            'endpoint': reverse('edit', urlconf='bangoo.blog.admin.urls', args=[post.pk], prefix='')
+        }
+
     def flatten(self, data):
         if isinstance(data, QuerySet):
             posts = []
             for post in data:
-                posts.append({
-                    'id': post.pk,
-                    'title': post.title,
-                    'created_at': post.created_at,
-                    'published_at': post.published_at,
-                    'endpoint': reverse('edit', urlconf='bangoo.blog.admin.urls', args=[post.pk], prefix='')
-                })
+                posts.append(self.for_list(post))
             return posts
+        elif isinstance(data, PostPublishForm):
+            flattened = self.for_list(data.instance)
         elif hasattr(data, 'instance') and data.instance.pk:
-            reply = super(PostSerializer, self).flatten(data.instance)
-            reply['url'] = reverse('api:post-api', args=[data.instance.pk])
-            reply['endpoint'] = reverse('edit', urlconf='bangoo.blog.admin.urls', args=[data.instance.pk], prefix='')
-            return reply
+            flattened = super(PostSerializer, self).flatten(data.instance)
+            flattened['tags'] = ', '.join(_.name for _ in data.instance.tags.all())
+            flattened['url'] = reverse('api:post-api', args=[data.instance.pk])
+            flattened['endpoint'] = reverse('edit', urlconf='bangoo.blog.admin.urls', args=[data.instance.pk], prefix='')
+        elif isinstance(data, Post):
+            flattened = super(PostSerializer, self).flatten(data)
+            flattened['tags'] = ', '.join(_.name for _ in data.tags.all())
         else:
-            return super(PostSerializer, self).flatten(data)
+            flattened = super(PostSerializer, self).flatten(data)
+        return flattened
 
 
 class PostResource(ModelResource):
