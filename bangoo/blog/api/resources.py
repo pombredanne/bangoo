@@ -11,7 +11,7 @@ from restify.http.response import ApiResponse
 from restify.resource import ModelResource
 from restify.serializers import ModelSerializer
 
-from bangoo.blog.admin.forms import PostForm
+from bangoo.blog.admin.forms import PostForm, PostPublishForm
 from bangoo.blog.models import Post
 
 
@@ -25,20 +25,14 @@ class PostSerializer(ModelSerializer):
                     'title': post.title,
                     'created_at': post.created_at,
                     'published_at': post.published_at,
-                    'url': reverse('edit', urlconf='bangoo.blog.admin.urls', args=[post.pk], prefix='')
+                    'endpoint': reverse('edit', urlconf='bangoo.blog.admin.urls', args=[post.pk], prefix='')
                 })
             return posts
         elif hasattr(data, 'instance') and data.instance.pk:
-            post = data.instance
-            
-            return {
-                'id': post.pk,
-                'title': post.title,
-                'content': post.content,
-                'created_at': post.created_at,
-                'published_at': post.published_at,
-                'url': reverse('edit', urlconf='bangoo.blog.admin.urls', args=[post.pk], prefix='')
-            }
+            reply = super(PostSerializer, self).flatten(data.instance)
+            reply['url'] = reverse('api:post-api', args=[data.instance.pk])
+            reply['endpoint'] = reverse('edit', urlconf='bangoo.blog.admin.urls', args=[data.instance.pk], prefix='')
+            return reply
         else:
             return super(PostSerializer, self).flatten(data)
 
@@ -60,16 +54,23 @@ class PostResource(ModelResource):
             return ApiResponse(post)
 
     def post(self, request, post_id):
+        post = json.loads(request.body.decode())
+
         if post_id == 'new':
             instance = Post()
             instance.author = request.user.blog_author
+        elif post_id == 'publish':
+            instance = get_object_or_404(Post, pk=post['id'], author=request.user.blog_author)
         else:
             instance = get_object_or_404(Post, pk=post_id, author=request.user.blog_author)
 
-        form = PostForm(json.loads(request.body.decode()), instance=instance)
+        if post_id == 'publish':
+            form = PostPublishForm(post, instance=instance)
+        else:
+            form = PostForm(post, instance=instance)
 
         if form.is_valid():
             form.save()
             return ApiResponse(form)
         else:
-            return ApiResponse(form, status_code=status.HTTP_400_BAD_REQUEST)
+            return ApiResponse(form.errors, status_code=status.HTTP_400_BAD_REQUEST)

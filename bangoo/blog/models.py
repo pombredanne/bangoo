@@ -22,3 +22,6 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(null=True)
     tags = TaggableManager()
+
+    class Meta:
+        ordering = ['-created_at']
