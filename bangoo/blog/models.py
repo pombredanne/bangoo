@@ -17,11 +17,12 @@ class Post(models.Model):
     author = models.ForeignKey(Author)
 
     title = models.CharField(max_length=255)
+    slug = models.CharField(max_length=255)
     content = models.TextField()
 
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(null=True)
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
 
     class Meta:
         ordering = ['-created_at']

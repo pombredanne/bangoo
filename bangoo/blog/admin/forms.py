@@ -3,6 +3,7 @@
 from datetime import datetime
 
 from django import forms
+from django.utils.text import slugify
 
 from bangoo.blog.models import Post
 
@@ -18,6 +19,7 @@ class PostForm(forms.ModelForm):
         super(PostForm, self).__init__(post, **kwargs)
 
     def save(self, commit=True):
+        self.instance.slug = slugify(self.cleaned_data['title'])
         if self.post_state == 'publish':
             self.instance.published_at = datetime.now()
         elif self.post_state == 'draft':
