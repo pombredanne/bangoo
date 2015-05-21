@@ -65,6 +65,10 @@
     .sidebar-body {
         padding: 4px;
     }
+
+    .read-more {
+        font-style: italic;
+    }
 </style>
 {% endblock %}
 
@@ -83,7 +87,14 @@
                 </div>
                 <div class="body">
                     {% autoescape off %}
-                    {{ post.content }}
+                    {% if post.preview %}
+                        {{ post.preview }}
+                        <div class="read-more">
+                        <a href="{% url 'blog-full-post' post.pk post.slug%}">{% trans 'Continue reading' %}</a>
+                        </div>
+                    {% else %}
+                        {{ post.content }}
+                    {% endif %}
                     {% endautoescape %}
                 </div>
                 <div class="foot">
@@ -106,6 +117,7 @@
                     {% for tag in tags %}
                     <a href="{% url 'blog-tagged-posts' tag.name %}">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
                     {% endfor %}
+                    &nbsp;
                 </div>
             </div>
         </div>

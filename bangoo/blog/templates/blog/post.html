@@ -104,6 +104,7 @@
                     {% for tag in tags %}
                     <a href="{% url 'blog-tagged-posts' tag.name %}">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
                     {% endfor %}
+                    &nbsp;
                 </div>
             </div>
         </div>

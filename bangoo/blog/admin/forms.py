@@ -11,7 +11,7 @@ from bangoo.blog.models import Post
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'content', 'tags')
+        fields = ('title', 'content', 'preview', 'tags')
 
     def __init__(self, post=None, **kwargs):
         if post:

@@ -32,11 +32,12 @@
 {% endblock %}
 {% block content %}
     <div ng-app="bangoo.blog.post" ng-cloak>
-        <form ng-controller="BangooBlogPostController as post" novalidate url="{% url 'api:post-api' post_id %}">
+        <form ng-controller="BangooBlogPostController as post" novalidate data-url="{% url 'api:post-api' post_id %}">
             <div class="row">
                 <div class="col-md-10">
                     {% bootstrap_field form.title 'data.title' 'errors.title'%}
                     {% redactor_field form.content 'data.content' 'errors.content' %}
+                    {% redactor_field form.preview 'data.preview' 'errors.preview' %}
                 </div>
                 <div class="col-md-2">
                     <div class="btn-group padding-fix operations">
@@ -45,9 +46,6 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    {% comment %}
-                    TODO: Add some jquery tagging plugin here (note: for instance blogger doesn't use anything)
-                    {% endcomment %}
                     {% bootstrap_field form.tags 'data.tags' 'errors.tags' %}
                 </div>
             </div>
