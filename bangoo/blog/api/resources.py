@@ -63,7 +63,7 @@ class PostResource(ModelResource):
             return ApiResponse(post)
 
     def post(self, request, post_id):
-        post = json.loads(request.body.decode())
+        post = request.POST
 
         if post_id == 'new':
             instance = Post()
@@ -76,7 +76,7 @@ class PostResource(ModelResource):
         if post_id == 'publish':
             form = PostPublishForm(post, instance=instance)
         else:
-            form = PostForm(post, instance=instance)
+            form = PostForm(post, request.FILES, instance=instance)
 
         if form.is_valid():
             form.save()

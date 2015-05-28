@@ -1,6 +1,7 @@
 {% extends 'admin/base.html' %}
 {% load bootstrap_form_fields %}
 {% load i18n %}
+{% load navigation_tags %}
 {% load static %}
 
 {% block head %}
@@ -47,6 +48,9 @@
                 </div>
                 <div class="col-md-2">
                     {% bootstrap_field form.tags 'data.tags' 'errors.tags' %}
+                </div>
+                <div class="col-md-2">
+                    {{ form.assets }}
                 </div>
             </div>
         </form>

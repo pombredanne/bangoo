@@ -25,6 +25,23 @@ angular.module('bangoo.blog.post', ['codehouse.ui'], function($interpolateProvid
         }
     };
 
+    this.toFormData = function(obj){
+        var fd = new FormData();
+        var keys = Object.keys(obj);
+        for(var i=0; i<keys.length; i++){
+            var key = keys[i];
+            var elem = document.getElementsByName(key)[0];
+            if(elem !== undefined && elem.type === 'file'){
+                fd.append(elem.name, elem.files[0]);
+            }
+            else {
+                var value = obj[key];
+                fd.append(key, value===null?'':value);
+            }
+        }
+        return fd
+    };
+
     this.submit = function(postState, e){
         var elem = $(e.target);
         var data = $scope.data;
@@ -35,9 +52,10 @@ angular.module('bangoo.blog.post', ['codehouse.ui'], function($interpolateProvid
         $http({
             method: 'POST',
             url: self.url,
-            data: data,
+            data: self.toFormData(data),
             xsrfHeaderName: 'X-CSRFToken',
-            xsrfCookieName: 'csrftoken'
+            xsrfCookieName: 'csrftoken',
+            headers : {'Content-Type' : undefined}
         }).success(function(data){
             $('.top-right').notify({
                 type: 'success',

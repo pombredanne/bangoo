@@ -29,6 +29,7 @@ def generate_menu(context, custom_classes='', template_name='navigation/default.
 
 class MenuURLNode(URLNode):
     def render(self, context):
+        # TODO: This method works on frontend only
         try:
             return super(MenuURLNode, self).render(context)
         except NoReverseMatch as ex:
