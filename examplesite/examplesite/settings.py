@@ -141,3 +141,4 @@ THUMBNAIL_ALIASES = {
     },
 }
 THUMBNAIL_SUBDIR = 'thumbs'
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
