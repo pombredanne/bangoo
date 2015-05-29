@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load navigation_tags %}
+{% load post_assets %}
 
 {% block head %}
 <style>
@@ -77,6 +78,9 @@
         {% for post in posts %}
             <div class="post">
                 <div class="head">
+                    <div class="cover">
+                        {% include_cover post 'cover.png' %}
+                    </div>
                     <div class="title">
                         <a href="{% url 'blog-full-post' post.pk post.slug %}">{{ post.title }}
                         {% if not post.published_at %}<i>{% trans '(draft)' %}</i>{% endif %}</a>

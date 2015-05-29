@@ -29,3 +29,8 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+class Asset(models.Model):
+    post = models.ForeignKey(Post)
+    file = models.FileField()
+    mime_type = models.CharField(max_length=32)

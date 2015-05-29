@@ -1,4 +1,4 @@
-// Created: Fri May 29 2015 10:32:31 GMT+0200 (CEST)
+// Created: Fri May 29 2015 14:09:13 GMT+0200 (CEST)
 angular.module('codehouse.ui.checkbox', [])
 .controller('BsCheckboxController', ['$scope', function($scope){
     var self = this;
@@ -451,7 +451,7 @@ angular.module('codehouse.ui.textarea', [])
 angular.module('codehouse.ui.upload', [])
 .controller('BsUploadController', ['$scope', function($scope){
     $scope.append = function(input){
-        $scope.model = input.files[0];
+        $scope.model = input;
         $scope.$apply();
     }
 }])

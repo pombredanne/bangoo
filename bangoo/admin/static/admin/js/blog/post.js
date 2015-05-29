@@ -31,7 +31,13 @@ angular.module('bangoo.blog.post', ['codehouse.ui'], function($interpolateProvid
         for(var i=0; i<keys.length; i++){
             var key = keys[i];
             var value = obj[key];
-            fd.append(key, value===null?'':value);
+            if(value && value.type !== undefined && value.type === 'file'){
+                fd.append(key, value.files[0]);
+                value.value = '';
+            }
+            else {
+                fd.append(key, value===null?'':value);
+            }
         }
         return fd
     };

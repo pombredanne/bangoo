@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% load navigation_tags %}
+{% load post_assets %}
 
 {% block head %}
 <style>
@@ -66,12 +67,16 @@
         padding: 4px;
     }
 </style>
+    {% include_css post %}
 {% endblock %}
 
 {% block content %}
     <div class="col-lg-10">
         <div class="post">
             <div class="head">
+                <div class="cover">
+                    {% include_cover post 'cover.png' %}
+                </div>
                 <div class="title">
                     <a href="{% url 'blog-full-post' post.pk post.slug %}">{{ post.title }}
                     {% if not post.published_at %}<i>{% trans '(draft)' %}</i>{% endif %}</a>
@@ -84,6 +89,7 @@
                 {% autoescape off %}
                 {{ post.content }}
                 {% endautoescape %}
+                {% include_scripts post %}
             </div>
             <div class="foot">
                 by {{ post.author }}
