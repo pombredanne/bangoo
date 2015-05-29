@@ -69,6 +69,7 @@ class PostResource(ModelResource):
             instance = Post()
             instance.author = request.user.blog_author
         elif post_id == 'publish':
+            post = json.loads(request.body.decode())
             instance = get_object_or_404(Post, pk=post['id'], author=request.user.blog_author)
         else:
             instance = get_object_or_404(Post, pk=post_id, author=request.user.blog_author)

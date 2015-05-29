@@ -19,9 +19,9 @@ class PostForm(forms.ModelForm):
 
     def __init__(self, post=None, files=None, **kwargs):
         if post:
-            self.post_state = post.pop('state')
+            self.post_state = post.pop('state')[0]
         super(PostForm, self).__init__(post, files, **kwargs)
-        self.fields['assets'] = forms.FileField(required=False, help_text=_('.zip file'))
+        self.fields['assets'] = forms.FileField(required=False, help_text=_('.zip file'), label=_('Assets'))
 
     def clean_assets(self):
         if self.cleaned_data['assets'] and not zipfile.is_zipfile(self.cleaned_data['assets']):
