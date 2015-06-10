@@ -1,3 +1,4 @@
+// Created: Fri May 29 2015 14:09:13 GMT+0200 (CEST)
 angular.module('codehouse.ui.checkbox', [])
 .controller('BsCheckboxController', ['$scope', function($scope){
     var self = this;
@@ -241,6 +242,58 @@ angular.module('codehouse.ui.number', [])
             '</div>'
     }
 });
+angular.module('codehouse.ui.redactor', [])
+.controller('BsRedactorController', ['$scope', function($scope){
+    var self = this;
+}])
+.directive('bsRedactor', ['redactorOptions', function(redactorOptions){
+    return {
+        restrict: 'E',
+        required: '^form',
+        replace: true,
+        controller: 'BsRedactorController',
+        scope: {
+            model: '=',
+            errors: '=',
+            id: '@inputid',
+            cols: '@',
+            help: '@',
+            initial: '@',
+            label: '@',
+            required: '@',
+            rows: '@'
+
+        },
+        template:
+            '<div class="form-group" ng-class="{\'has-error\': errors}">' +
+                 '<label for="{{ id }}" class="control-label">{{ label }}<span class="asteriskField" ng-show="{{ required }}">*</span></label>' +
+                 '<div class="controls">' +
+                     '<textarea ng-model="model" id="{{ id }}" class="textarea form-control" cols="{{ cols }}" rows="{{ rows }}" ng-required="{{ required }}"></textarea>' +
+                     '<p id="hint_{{ id }}" class="help-block">{{ help }}</p>' +
+                     '<span id="error_{{ id }}" class="help-block" ng-show="errors.length">' +
+                          '<div ng-repeat="text in errors">' +
+                               '<strong>{{ text }}</strong>' +
+                          '</div>' +
+                     '</span>' +
+                '</div>' +
+            '</div>',
+        link: function(scope, elem, attrs){
+            var deactivateWatcher = scope.$watch('model', function(val){
+                if(val !== undefined && val !== null) {
+                    redactorElem.redactor('code.set', scope.model)
+                }
+            });
+
+            redactorOptions.changeCallback = function(){
+                scope.model = this.code.get();
+                scope.$apply();
+                deactivateWatcher();
+            };
+
+            var redactorElem = $(elem).find('textarea').redactor(redactorOptions);
+        }
+    }
+}]);
 angular.module('codehouse.ui.select', [])
 .controller('BsSelectController', ['$scope', function($scope){
     var self = this;
@@ -320,6 +373,45 @@ angular.module('codehouse.ui.select2', [])
         }
     };
 });
+angular.module('codehouse.ui.taggit', [])
+.controller('BsTaggitController', ['$scope', function($scope){
+    var self = this;
+}])
+.directive('bsTaggit', function(){
+    return {
+        restrict: 'E',
+        require: '^form',
+        scope: {
+            model: "=",
+            errors: '=',
+            id: '@inputid',
+            help: '@',
+            initial: '@',
+            label: '@',
+            required: '@'
+        },
+        controller: 'BsTaggitController',
+        template:
+            '<div class="form-group" ng-class="{\'has-error\': errors.length}" id=""> ' +
+                 '<label for="{{ id }}" class="control-label">{{ label }}<span class="asteriskField" ng-show="{{ required }}">*</span></label>' +
+                 '<div class="controls">' +
+                     '<input type="text" id="{{ id }}" class="form-control" ng-model="model" nq-required="{{ required }}">' +
+                     '<p id="hint_{{ id }}" class="help-block">{{ help }}</p>' +
+                     '<span id="error_{{ id }}" class="help-block" ng-show="errors.length">' +
+                        '<div ng-repeat="text in errors">' +
+                            '<strong>{{ text }}</strong>' +
+                        '</div>' +
+                     '</span>' +
+                '</div>' +
+            '</div>',
+        link: function(scope, elem, attrs, ctrl){
+            if(attrs.initial !== undefined){
+                // TODO: Add real tagging
+                scope.model = attrs.initial;
+            }
+        }
+    };
+});
 angular.module('codehouse.ui.textarea', [])
 .controller('BsTextareaController', ['$scope', function($scope){
     var self = this;
@@ -356,60 +448,41 @@ angular.module('codehouse.ui.textarea', [])
             '</div>'
     }
 });
-angular.module('codehouse.ui.redactor', [])
-.controller('BsRedactorController', ['$scope', function($scope){
-    var self = this;
+angular.module('codehouse.ui.upload', [])
+.controller('BsUploadController', ['$scope', function($scope){
+    $scope.append = function(input){
+        $scope.model = input;
+        $scope.$apply();
+    }
 }])
-.directive('bsRedactor', function(){
+.directive('bsUpload', function(){
     return {
         restrict: 'E',
-        required: '^form',
-        replace: true,
-        controller: 'BsRedactorController',
+        require: '^form',
         scope: {
-            model: '=',
+            model: "=",
             errors: '=',
             id: '@inputid',
-            cols: '@',
             help: '@',
             initial: '@',
             label: '@',
-            required: '@',
-            rows: '@'
+            required: '@'
         },
+        controller: 'BsUploadController',
         template:
-            '<div class="form-group" ng-class="{\'has-error\': errors}">' +
+            '<div class="form-group" ng-class="{\'has-error\': errors.length}" id=""> ' +
                  '<label for="{{ id }}" class="control-label">{{ label }}<span class="asteriskField" ng-show="{{ required }}">*</span></label>' +
                  '<div class="controls">' +
-                     '<textarea ng-model="model" id="{{ id }}" class="textarea form-control" cols="{{ cols }}" rows="{{ rows }}" ng-required="{{ required }}"></textarea>' +
+                     '<input type="file" id="{{ id }}" class="form-control" ng-model="model" nq-required="{{ required }}" onchange="angular.element(this).scope().append(this)">' +
                      '<p id="hint_{{ id }}" class="help-block">{{ help }}</p>' +
                      '<span id="error_{{ id }}" class="help-block" ng-show="errors.length">' +
-                          '<div ng-repeat="text in errors">' +
-                               '<strong>{{ text }}</strong>' +
-                          '</div>' +
+                        '<div ng-repeat="text in errors">' +
+                            '<strong>{{ text }}</strong>' +
+                        '</div>' +
                      '</span>' +
                 '</div>' +
-            '</div>',
-        link: function(scope, elem, attrs){
-            var deactivateWatcher = scope.$watch('model', function(val){
-                if(val !== undefined && val !== null) {
-                    redactorElem.redactor('code.set', scope.model)
-                }
-            });
-
-            var redactorElem = $(elem).find('textarea').redactor({
-                buttonSource: true,
-                paragraphize: false,
-                replaceDivs: false,
-                plugins: ['imagemanager'],
-                changeCallback: function(){
-                    scope.model = this.code.get();
-                    scope.$apply();
-                    deactivateWatcher();
-                }
-            });
-        }
-    }
+            '</div>'
+    };
 });
 angular.module('codehouse.ui', [
     'codehouse.ui.checkbox',
@@ -421,5 +494,7 @@ angular.module('codehouse.ui', [
     'codehouse.ui.redactor',
     'codehouse.ui.select',
     'codehouse.ui.select2',
-    'codehouse.ui.textarea'
+    'codehouse.ui.taggit',
+    'codehouse.ui.textarea',
+    'codehouse.ui.upload'
 ]);

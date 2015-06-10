@@ -49,10 +49,20 @@
     #page-settings .help-block {
         clear: both;
     }
-
     </style>
-{% endblock %}
+    <script>
+        angular.module('bangoo.content.edit').factory('redactorOptions', function(){
+            return {
+                buttonSource: true,
+                paragraphize: false,
+                replaceDivs: false,
+                imageManagerJson: '{% url 'media-redactor-list-images' %}',
+                imageUpload: '{% url 'media-redactor-upload-images' %}',
+                plugins: ['imagemanager']}
+        });
+    </script>
 
+{% endblock %}
 {% block content %}
     <div ng-app="bangoo.content.edit" ng-cloak>
         <form ng-controller="BangooContentEditController as cf" novalidate action="{% url 'api:content-api' act_menu.pk %}" ng-submit="cf.submit($event)">

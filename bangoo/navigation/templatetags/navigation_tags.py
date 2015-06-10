@@ -1,9 +1,12 @@
+# coding: utf-8
+
 from django import template
-from django.template.loader import render_to_string
-from django.template.defaulttags import URLNode
 from django.core.urlresolvers import NoReverseMatch, reverse
 from django.template.defaulttags import url as django_url
-from django.db.models import Q
+from django.template.defaulttags import URLNode
+from django.template.loader import render_to_string
+from django.utils.encoding import smart_text
+
 register = template.Library()
 
 from bangoo.navigation.models import Menu
@@ -26,6 +29,7 @@ def generate_menu(context, custom_classes='', template_name='navigation/default.
 
 class MenuURLNode(URLNode):
     def render(self, context):
+        # TODO: This method works on frontend only
         try:
             return super(MenuURLNode, self).render(context)
         except NoReverseMatch as ex:
@@ -33,7 +37,9 @@ class MenuURLNode(URLNode):
             if not act_menu:
                 raise ex
             prefix = '/%s/%s' % (context.get('LANGUAGE_CODE'), act_menu.path[1:-1])
-            url = reverse(self.view_name.resolve(context), args=self.args, kwargs=self.kwargs, urlconf=act_menu.urlconf)
+            args = [arg.resolve(context) for arg in self.args]
+            kwargs = dict((smart_text(k, 'ascii'), v.resolve(context)) for k, v in self.kwargs.items())
+            url = reverse(self.view_name.resolve(context), args=args, kwargs=kwargs, urlconf=get_urlconf(act_menu.plugin))
             return prefix + url
 
 
