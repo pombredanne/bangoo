@@ -91,7 +91,6 @@ INSTALLED_APPS = (
     ### 3rd-party apps
     'crispy_forms',
     'taggit',
-    'richforms',
     'ajaxtables',
     'easy_thumbnails',
     'mptt'

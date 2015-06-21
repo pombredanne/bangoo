@@ -1,36 +1,14 @@
 # coding: utf8
-
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+
 from hvad.models import TranslatableModel, TranslatedFields
-
-
-class Author(models.Model):
-    """
-    experience: Level of experience, how complicated edit surface will the author have.
-    """
-
-    BEGINNER = 'begin'
-    INTERMEDIATE = 'inter'
-    EXPERT = 'expert'
-
-    EXPERIENCE_CHOICES = {
-        BEGINNER: 'Beginner',
-        INTERMEDIATE: 'Intermediate',
-        EXPERT: 'Expert'
-    }
-
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
-    experience = models.CharField(max_length=10, choices=list(EXPERIENCE_CHOICES.items()))
-
-    def __str__(self):
-        return str(self.user)
 
 
 class Content(TranslatableModel):
     is_page = models.BooleanField(default=True)
-    authors = models.ManyToManyField(Author, verbose_name=_('authors'))
+    authors = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_('authors'))
     created = models.DateTimeField(verbose_name=_('created'), auto_now_add=True)
     published = models.DateTimeField(verbose_name=_('published'), blank=True, null=True)
     allow_comments = models.BooleanField(_('allow comments'), default=False)

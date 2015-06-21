@@ -1,10 +1,10 @@
 # coding: utf8
-
 from django import forms
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
-from bangoo.content.models import Author, Content
+from bangoo.content.models import Content
 
 
 class EditContentForm(forms.ModelForm):
@@ -43,6 +43,8 @@ class EditContentForm(forms.ModelForm):
             })
 
         self.experience_fields = []
+
+        Author = get_user_model()
         if self.author:
             if self.author.experience == Author.EXPERT:
                 self.experience_fields = [self[s] for s in ('authors', 'allow_comments', 'template_name',
