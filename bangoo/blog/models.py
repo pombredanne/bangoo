@@ -1,5 +1,4 @@
 # coding: utf-8
-
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -7,15 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from taggit.managers import TaggableManager
 
 
-class Author(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='blog_author')
-
-    def __str__(self):
-        return str(self.user)
-
-
 class Post(models.Model):
-    author = models.ForeignKey(Author)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('author'))
 
     title = models.CharField(max_length=255)
     slug = models.CharField(max_length=255)
@@ -29,6 +21,7 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
 
 class Asset(models.Model):
     post = models.ForeignKey(Post)

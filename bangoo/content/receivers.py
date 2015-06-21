@@ -12,12 +12,14 @@ def menu_created_callback(sender, **kwargs):
     if menu.plugin != 'bangoo.content':
         return
 
+    #author = kwargs['user']
     content = Content.objects.create(published=timezone.now())
+
+    #content.authors.add(author)
+
     for menu_trans in menu.translations.all():
-        author = kwargs['user'].author
         content.translate(menu_trans.language_code)
         content.title = menu_trans.title
         content.url = menu_trans.path
-        content.authors.add(author)
         content.text = ''
         content.save()

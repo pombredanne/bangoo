@@ -31,6 +31,7 @@ class MenuManager(TranslationManager):
             if 'parent' in list(defaults.keys()):
                 menu.path = defaults['parent'].path + menu.path[1:]
             menu.save()
+
         menu_created.send(self.__class__, menu=menu, user=user)
         return menu
 
