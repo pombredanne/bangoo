@@ -1,6 +1,6 @@
 import json
 
-from restify import status
+from restify.http import status
 from restify.http.response import ApiResponse
 from restify.resource import ModelResource
 

@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 
-from restify import status
+from restify.http import status
 from restify.http.response import ApiResponse
 from restify.resource import ModelResource
 from restify.serializers import ModelSerializer
