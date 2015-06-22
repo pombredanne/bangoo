@@ -10,4 +10,4 @@ local_settings.py
 dist
 build
 uploads
-static
+redactor

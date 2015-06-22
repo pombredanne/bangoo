@@ -16,9 +16,7 @@ install_requires = [
     "django-mptt==0.6.1",
     "django-crispy-forms",
     "angular",
-    #"ajaxtables",
-    #"django-restify",
-    #"richforms",
+    "django-restify",
 ]
 
 standard_exclude = ('*.py', '*.pyc', '*$py.class', '*~', '.*', '*.bak')

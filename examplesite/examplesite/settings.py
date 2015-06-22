@@ -84,7 +84,7 @@ INSTALLED_APPS = (
     'bangoo.admin',
     'bangoo.core',
     'bangoo.content',
-    'bangoo.blog',
+    'bangoo.plugins.blog',
     'bangoo.navigation',
     'bangoo.theming',
     'bangoo.media',
@@ -92,7 +92,6 @@ INSTALLED_APPS = (
     ### 3rd-party apps
     'crispy_forms',
     'taggit',
-    'ajaxtables',
     'easy_thumbnails',
     'mptt'
 )
