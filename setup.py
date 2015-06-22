@@ -6,8 +6,9 @@ from fnmatch import fnmatchcase
 from setuptools import setup, find_packages
 from bangoo import __version__ as version
 
+# TODO: django-havd==0.5.2 is not compatible with django>=1.7.7
 install_requires = [
-    "django>=1.7.7",
+    "django==1.7.7",
     "requests",
     "django-taggit",
     "easy-thumbnails",
@@ -15,8 +16,8 @@ install_requires = [
     "django-jsonfield==0.9.13",
     "django-mptt==0.6.1",
     "django-crispy-forms",
-    "angular",
-    "django-restify",
+    #"angular",
+    #"django-restify",
 ]
 
 standard_exclude = ('*.py', '*.pyc', '*$py.class', '*~', '.*', '*.bak')
