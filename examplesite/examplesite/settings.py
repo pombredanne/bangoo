@@ -82,6 +82,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     ### Bangoo core modules
     'bangoo.admin',
+    'bangoo.core',
     'bangoo.content',
     'bangoo.blog',
     'bangoo.navigation',
@@ -141,3 +142,4 @@ THUMBNAIL_ALIASES = {
 }
 THUMBNAIL_SUBDIR = 'thumbs'
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+AUTH_USER_MODEL = 'core.User'

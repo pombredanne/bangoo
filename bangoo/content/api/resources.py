@@ -12,6 +12,7 @@ from bangoo.content.admin.forms import EditContentForm
 from bangoo.content.models import Content
 from bangoo.navigation.models import Menu
 
+
 class ContentResource(ModelResource):
     class Meta:
         resource_name = 'content-api'
@@ -19,14 +20,12 @@ class ContentResource(ModelResource):
     def common(self, request, menu_id):
         lang = settings.LANGUAGES[0][0]
         act_menu = Menu.objects.language(lang).get(pk=menu_id)
-        self.content = Content.objects.language(lang).get(url=act_menu.path)
+        content = Content.objects.language(lang).get(url=act_menu.path)
 
-        post = request.body.decode()
-        if post == '':
-            post = None
-        else:
-            post = json.loads(post)
-        self.form = EditContentForm(post, instance=self.content, initial={'authors': [str(_.pk) for _ in self.content.authors.all()]})
+        post = json.loads(request.body.decode()) if request.body else None
+        self.form = EditContentForm(post,
+                                    instance=content,
+                                    initial={'authors': [str(_.pk) for _ in content.authors.all()]})
 
     def get(self, request, menu_id):
         return ApiResponse(self.form)

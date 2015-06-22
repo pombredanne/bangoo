@@ -15,6 +15,7 @@ install_requires = [
     "django-jsonfield==0.9.13",
     "django-mptt==0.6.1",
     "django-crispy-forms",
+    "angular",
     #"ajaxtables",
     #"django-restify",
     #"richforms",
