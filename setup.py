@@ -20,7 +20,7 @@ install_requires = [
 ]
 
 standard_exclude = ('*.py', '*.pyc', '*$py.class', '*~', '.*', '*.bak')
-standard_exclude_directories = ('.*', 'CVS', '_darcs', './build', 'project_template',
+standard_exclude_directories = ('.*', 'CVS', '_darcs', './build', 'project_template', 'examplesite',
                                 './dist', 'EGG-INFO', '*.egg-info')
 # (c) 2005 Ian Bicking and contributors; written for Paste (http://pythonpaste.org)
 # Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
