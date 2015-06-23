@@ -84,7 +84,6 @@ INSTALLED_APPS = (
     'bangoo.admin',
     'bangoo.core',
     'bangoo.content',
-    'bangoo.plugins.blog',
     'bangoo.navigation',
     'bangoo.theming',
     'bangoo.media',
