@@ -28,7 +28,7 @@ class Content(TranslatableModel):
         }
     )
 
-## TODO: move to apps.py
+# TODO: move to apps.py
 from bangoo.navigation.signals import menu_created
 from bangoo.content.receivers import menu_created_callback
 menu_created.connect(menu_created_callback)

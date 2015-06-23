@@ -1,7 +1,6 @@
 from django import forms
 from .models import Image
 from crispy_forms.helper import FormHelper
-from django.core.urlresolvers import reverse
 
 
 class UploadImageForm(forms.ModelForm):

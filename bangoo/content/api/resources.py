@@ -4,6 +4,7 @@ import json
 
 from django.conf import settings
 
+from restify.authorization import DjangoPermissions
 from restify.http import status
 from restify.http.response import ApiResponse
 from restify.resource import ModelResource
@@ -16,6 +17,7 @@ from bangoo.navigation.models import Menu
 class ContentResource(ModelResource):
     class Meta:
         resource_name = 'content-api'
+        authorization = DjangoPermissions(get='content.add_content', post='content.add_content')
 
     def common(self, request, menu_id):
         lang = settings.LANGUAGES[0][0]

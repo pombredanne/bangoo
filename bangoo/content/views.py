@@ -1,12 +1,9 @@
 from .models import Content
 from django.conf import settings
-from django.contrib.sites.models import get_current_site
 from django.http import Http404, HttpResponse, HttpResponsePermanentRedirect
-from django.shortcuts import get_object_or_404
 from django.template import loader, RequestContext, Template
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_protect
-from django.template.loader import render_to_string
 
 
 DEFAULT_TEMPLATE = 'content/page.html'
