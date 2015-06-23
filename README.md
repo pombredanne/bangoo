@@ -4,8 +4,7 @@ Bangoo is a content management system on the top of Django.
 
 # Installation
 
--   Remove `django.contrib.admin` from `INSTALLED_APPS` and line where you import from the
-    `django.contrib.admin` module (e.g.: `urls.py`).
+-   Remove `django.contrib.admin` from `INSTALLED_APPS` and everything related to it (e.g.: imports in `urls.py`).
 
 -   Add these lines to the `INSTALLED_APPS`:
 
