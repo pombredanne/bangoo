@@ -1,7 +1,4 @@
-from .models import Menu
 from django.core.urlresolvers import resolve
-from django.http import Http404
-from django.shortcuts import render
 from bangoo.navigation.utils import get_urlconf
 
 

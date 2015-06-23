@@ -1,4 +1,4 @@
-from content.views import page
+from .views import page
 from django.http import Http404
 from django.conf import settings
 

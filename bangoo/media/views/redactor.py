@@ -1,17 +1,13 @@
 """
-    Handling media content in redactor.js
+Handling media content in redactor.js
 """
-import json
-import os
-from PIL import Image
+
 from django.conf import settings
 from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from bangoo.media.models import Image
-from easy_thumbnails.files import get_thumbnailer
-
 
 @csrf_exempt
 @require_POST
@@ -20,7 +16,7 @@ def upload_images(request):
     retval = []
     for f in request.FILES.getlist("file"):
         if f.content_type.find('image') == -1:
-            raise Http404() ## very ugly type check, TODO
+            raise Http404()  # TODO: very ugly type check
         i = Image(file=f)
         i.save()
         i.tags.add('article')
