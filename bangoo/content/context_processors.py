@@ -1,4 +1,4 @@
-from content.models import Content
+from .models import Content
 from django.utils.safestring import mark_safe
 
 def widgets(request):

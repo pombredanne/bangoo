@@ -1,5 +1,8 @@
+# coding: utf-8
+
 import json
 
+from restify.authorization import DjangoPermissions
 from restify.http import status
 from restify.http.response import ApiResponse
 from restify.resource import ModelResource
@@ -11,6 +14,7 @@ from bangoo.navigation.models import Menu
 class MenuResource(ModelResource):
     class Meta:
         resource_name = 'menu-api'
+        authorization = DjangoPermissions(get='navigation.add_menu', post='navigation.add_menu')
 
     def common(self, request, menu_id):
         post = request.body.decode()

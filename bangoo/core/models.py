@@ -1,10 +1,28 @@
-from django.contrib.auth.models import AbstractBaseUser
+# coding: utf-8
+
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
-class User(AbstractBaseUser):
+class Manager(BaseUserManager):
+    def create_user(self, username, password):
+        user = self.model(username=username)
+        user.set_password(password)
+        user.experience = User.BEGINNER
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, password):
+        user = self.create_user(username, password)
+        user.experience = User.EXPERT
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
+
+
+class User(AbstractBaseUser, PermissionsMixin):
     """
     experience: Level of experience, how complicated edit surface will the author have.
     """
@@ -26,6 +44,8 @@ class User(AbstractBaseUser):
                                    help_text=_('Designates whether the user can log into bangoo admin site'))
     is_active = models.BooleanField(_('active'), default=True)
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+
+    objects = Manager()
 
     USERNAME_FIELD = 'username'
 

@@ -82,8 +82,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     ### Bangoo core modules
     'bangoo.admin',
+    'bangoo.core',
     'bangoo.content',
-    'bangoo.blog',
+    'bangoo.plugins.blog',
     'bangoo.navigation',
     'bangoo.theming',
     'bangoo.media',
@@ -91,7 +92,6 @@ INSTALLED_APPS = (
     ### 3rd-party apps
     'crispy_forms',
     'taggit',
-    'ajaxtables',
     'easy_thumbnails',
     'mptt'
 )
@@ -141,3 +141,4 @@ THUMBNAIL_ALIASES = {
 }
 THUMBNAIL_SUBDIR = 'thumbs'
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+AUTH_USER_MODEL = 'core.User'
