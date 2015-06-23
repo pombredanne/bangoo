@@ -23,7 +23,7 @@ class Content(TranslatableModel):
         meta={
             'unique_together': [('url', 'language_code')],
             'permissions': (
-                ('Can list all content', 'list_contents'),
+                ('list_contents', 'Can list all content'),
             ),
         }
     )
