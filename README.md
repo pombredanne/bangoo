@@ -4,6 +4,9 @@ Bangoo is a content management system on the top of Django.
 
 # Installation
 
+-   Remove `django.contrib.admin` from `INSTALLED_APPS` and line where you import from the
+    `django.contrib.admin` module (e.g.: `urls.py`).
+
 -   Add these lines to the `INSTALLED_APPS`:
 
     ```
@@ -18,7 +21,6 @@ Bangoo is a content management system on the top of Django.
     'bangoo.admin',
     'bangoo.media',
     'bangoo.content',
-    'bangoo.plugins.blog'
     ```
 
 -   Set `STATICFILES_FINDERS` to:
@@ -85,7 +87,7 @@ Bangoo is a content management system on the top of Django.
 -   Set the theme template directory path:
 
     ```
-    THEMES_BASE_DIR = join(dirname(dirname(__file__)), 'themes').replace('\\', '/')
+    THEMES_BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'themes').replace('\\', '/')
     ```
     
     And the default theme:
@@ -97,11 +99,8 @@ Bangoo is a content management system on the top of Django.
     In the example above the `THEMES_BASE_DIR` is expected to point to the `themes` directory
     in the current working directory. `default` theme should be located in `themes/default` then.
     
--   Create the theme directory by invoking `python manage.py create-theme`
-
 -   Set `CRISPY_TEMPLATE_PACK` to `bootstrap3`. 
     (Or anything valid. See the [docs](http://django-crispy-forms.readthedocs.org/en/latest/install.html#template-packs))
-
 
 -   Add `admin` and `media` URLs and also append Bangoo's navigation URLs to your URL patterns:
 
@@ -113,7 +112,12 @@ Bangoo is a content management system on the top of Django.
         url(r'', include('bangoo.navigation.urls')),
     )
     ```
-    
+    Don't forget to import `i18n_patterns`: `from django.conf.urls.i18n import i18n_patterns`
+
+-   `python manage.py migrate`
+-   Create the theme directory by invoking `python manage.py create-theme`
+
+
 # Template blocks
 
 Builtin and external plugins (e.g.: `bangoo.content`, `plugins.blog`) usually extend `base.html` template.
