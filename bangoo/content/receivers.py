@@ -1,6 +1,5 @@
 # coding: utf-8
 
-from django.db import transaction
 from django.utils import timezone
 
 from bangoo.content.models import Content

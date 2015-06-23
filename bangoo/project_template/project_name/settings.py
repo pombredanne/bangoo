@@ -75,7 +75,7 @@ INSTALLED_APPS = (
     'bangoo.admin', 'bangoo.content', 'bangoo.navigation', 'bangoo.theming', 'bangoo.media',
     ### Bangoo plugins
     ### 3rd-party apps
-    'crispy_forms', 'taggit', 'ajaxtables', 'easy_thumbnails', #richforms
+    'crispy_forms', 'taggit', 'easy_thumbnails'
 )
 
 LOGGING = {

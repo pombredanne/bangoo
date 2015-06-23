@@ -23,12 +23,12 @@ class Content(TranslatableModel):
         meta={
             'unique_together': [('url', 'language_code')],
             'permissions': (
-                ('Can list all content', 'list_contents'),
+                ('list_contents', 'Can list all content'),
             ),
         }
     )
 
-## TODO: move to apps.py
+# TODO: move to apps.py
 from bangoo.navigation.signals import menu_created
 from bangoo.content.receivers import menu_created_callback
 menu_created.connect(menu_created_callback)

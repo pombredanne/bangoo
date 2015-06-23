@@ -1,11 +1,13 @@
+# coding: utf-8
+
 from django import forms
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
 
+from bangoo.core import bangoo_plugins
 from bangoo.navigation.models import Menu
-
 from .utils import create_path
 
 
@@ -67,10 +69,7 @@ class MenuRenameForm(forms.Form):
 
 
 class MenuCreateForm(forms.Form):
-    PLUGIN_CHOICES = (
-        ('bangoo.content', 'bangoo.content'),
-        ('bangoo.blog', 'bangoo.blog')
-    )
+    PLUGIN_CHOICES = [(key, key) for key in bangoo_plugins.apps if key != 'bangoo.media']
 
     plugin = forms.ChoiceField(choices=PLUGIN_CHOICES, label=_('Plugin'), initial=PLUGIN_CHOICES[0][0])
     parent = forms.ModelChoiceField(queryset=Menu.objects.language(settings.LANGUAGES[0][0]).all(), label=_('Parent'),
@@ -78,6 +77,7 @@ class MenuCreateForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(MenuCreateForm, self).__init__(*args, **kwargs)
+        self.fields['plugin'].choices = [(key, key) for key in bangoo_plugins.apps if key != 'bangoo.media']
         self.language_fields = {}
 
         for code, lang in settings.LANGUAGES:

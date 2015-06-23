@@ -1,13 +1,11 @@
 {% extends 'admin/base.html' %}
 {% load mptt_tags %}
 {% load static %}
-{% load ajaxtables_tags %}
 {% load i18n %}
 {% load bootstrap_form_fields %}
 
 {% block head %}
     {{ block.super }}
-    {% ajaxtables_imports import_cookies_js=True %}
     <link href="{% static 'menu/css/menu.css' %}" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="{% static 'menu/js/app/new_menu.js' %}"></script>
     <script type="text/javascript" src="{% static 'menu/js/menu.js' %}"></script>

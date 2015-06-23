@@ -1,4 +1,5 @@
-#encoding: utf8
+# coding: utf-8
+
 from ..models import Image
 from ..forms import UploadImageForm
 from django.shortcuts import render
